@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar movimentação · Ampara Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/tokens.css}">
+    <link rel="stylesheet" th:href="@{/css/base.css}">
+    <link rel="stylesheet" th:href="@{/css/modals.css}">
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+</head>
+<body class="admin-body">
+<div class="admin-layout">
+    <div th:replace="~{fragments/admin-layout :: sidebar(${menuAtivo}, ${pendentesCount})}"></div>
+
+    <div class="admin-main-col">
+        <div th:replace="~{fragments/admin-layout :: topbar('Área administrativa')}"></div>
+
+        <main class="admin-content" style="display:flex;justify-content:center;padding-top:36px;">
+            <form th:action="@{/admin/financeiro/novo}" method="post" class="admin-form-card" style="width:100%;max-width:740px;">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+                    <p class="admin-eyebrow" style="margin-bottom:0;">NOVO REGISTRO INTERNO</p>
+                    <a th:href="@{/admin/financeiro}" class="admin-btn-soft" style="height:36px;">Fechar registro</a>
+                </div>
+                <h1 class="admin-title" style="margin-bottom:22px;">Registrar movimentação</h1>
+
+                <div class="modal-form">
+                    <div class="form-group">
+                        <label class="form-label" for="fn-desc">Descrição *</label>
+                        <input id="fn-desc" name="descricao" type="text" class="form-control" value="Doação · Carlos Almeida" required>
+                    </div>
+                    <div class="form-row-2">
+                        <div class="form-group">
+                            <label class="form-label" for="fn-tipo">Tipo *</label>
+                            <select id="fn-tipo" name="tipo" class="form-control">
+                                <option value="Entrada">Entrada</option>
+                                <option value="Despesa">Despesa</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="fn-val">Valor *</label>
+                            <input id="fn-val" name="valor" type="text" class="form-control" value="R$ 100,00" required>
+                        </div>
+                    </div>
+                    <div class="form-row-2">
+                        <div class="form-group">
+                            <label class="form-label">Data *</label>
+                            <input type="text" class="form-control" value="18/11/2026" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="fn-orig">Pagamento *</label>
+                            <input id="fn-orig" name="origem" type="text" class="form-control" value="Pix · Recebido" required>
+                        </div>
+                    </div>
+
+                    <p class="admin-subtitle" style="margin-top:4px;">Este registro organiza uma movimentação já recebida pela ONG.</p>
+                    <p class="table-sub-text">Não realiza cobranças nem movimenta dinheiro.</p>
+                </div>
+
+                <div class="admin-form-actions" style="justify-content:flex-end;">
+                    <button type="submit" class="admin-btn-primary">Salvar lançamento</button>
+                </div>
+            </form>
+        </main>
+    </div>
+</div>
+
+<div th:replace="~{fragments/admin-layout :: meuPerfilModal}"></div>
+<script th:src="@{/js/admin.js}"></script>
+</body>
+</html>

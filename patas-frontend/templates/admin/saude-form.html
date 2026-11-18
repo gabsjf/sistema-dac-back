@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar atendimento · Ampara Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/tokens.css}">
+    <link rel="stylesheet" th:href="@{/css/base.css}">
+    <link rel="stylesheet" th:href="@{/css/modals.css}">
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+</head>
+<body class="admin-body">
+<div class="admin-layout">
+    <div th:replace="~{fragments/admin-layout :: sidebar(${menuAtivo}, ${pendentesCount})}"></div>
+
+    <div class="admin-main-col">
+        <div th:replace="~{fragments/admin-layout :: topbar('Área administrativa')}"></div>
+
+        <main class="admin-content" style="display:flex;justify-content:center;padding-top:36px;">
+            <form th:action="@{/admin/saude/novo}" method="post" class="admin-form-card" style="width:100%;max-width:740px;">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+                    <p class="admin-eyebrow" style="margin-bottom:0;">NOVO REGISTRO INTERNO</p>
+                    <a th:href="@{/admin/saude}" class="admin-btn-soft" style="height:36px;">Fechar registro</a>
+                </div>
+                <h1 class="admin-title" style="margin-bottom:22px;">Registrar atendimento</h1>
+
+                <div class="modal-form">
+                    <div class="form-row-2">
+                        <div class="form-group">
+                            <label class="form-label" for="sa-animal">Animal *</label>
+                            <select id="sa-animal" name="animal" class="form-control">
+                                <option th:each="a : ${animais}" th:value="${a.nome}" th:text="${a.nome + ' · #' + a.codigo}">Luna · #AN-0128</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="sa-tipo">Tipo *</label>
+                            <select id="sa-tipo" class="form-control">
+                                <option value="Vacinação">Vacinação</option>
+                                <option value="Consulta">Consulta</option>
+                                <option value="Castração">Castração</option>
+                                <option value="Retorno clínico">Retorno clínico</option>
+                                <option value="Exame">Exame</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row-2">
+                        <div class="form-group">
+                            <label class="form-label" for="sa-hora">Data *</label>
+                            <input id="sa-hora" name="horario" type="text" class="form-control" value="18/11/2026" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="sa-prof">Profissional *</label>
+                            <input id="sa-prof" name="profissional" type="text" class="form-control" value="Dra. Camila Rocha" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="sa-proc">Procedimento *</label>
+                        <input id="sa-proc" name="procedimento" type="text" class="form-control" value="Vacina múltipla · Reforço anual" required>
+                        <input type="hidden" name="local" value="Consultório 1">
+                    </div>
+
+                    <p class="admin-subtitle" style="margin-top:4px;">Aplicação sem intercorrências. Observar nas próximas 24 horas.</p>
+                    <p class="table-sub-text">Situação: realizado · Registro interno no prontuário.</p>
+                </div>
+
+                <div class="admin-form-actions" style="justify-content:flex-end;">
+                    <button type="submit" class="admin-btn-primary">Salvar atendimento</button>
+                </div>
+            </form>
+        </main>
+    </div>
+</div>
+
+<div th:replace="~{fragments/admin-layout :: meuPerfilModal}"></div>
+<script th:src="@{/js/admin.js}"></script>
+</body>
+</html>

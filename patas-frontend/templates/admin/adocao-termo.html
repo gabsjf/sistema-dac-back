@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Termo e entrega · Ampara Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/tokens.css}">
+    <link rel="stylesheet" th:href="@{/css/base.css}">
+    <link rel="stylesheet" th:href="@{/css/modals.css}">
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+</head>
+<body class="admin-body">
+<div class="admin-layout">
+    <div th:replace="~{fragments/admin-layout :: sidebar(${menuAtivo}, ${pendentesCount})}"></div>
+
+    <div class="admin-main-col">
+        <div th:replace="~{fragments/admin-layout :: topbar('Área administrativa')}"></div>
+
+        <main class="admin-content">
+            <div class="admin-page-head">
+                <div>
+                    <p class="admin-eyebrow" th:text="${'ADOÇÕES / SOLICITAÇÃO #' + solicitacao.codigo}">ADOÇÕES / SOLICITAÇÃO #AD-0048</p>
+                    <h1 class="admin-title">Uma decisão com responsabilidade.</h1>
+                    <p class="admin-subtitle">Confira o perfil, converse com a família e formalize a entrega.</p>
+                </div>
+            </div>
+
+            <div style="display:flex;gap:12px;margin-bottom:22px;flex-wrap:wrap;">
+                <a th:href="@{/admin/adocoes/{c}/analisar(c=${solicitacao.codigo})}" class="admin-btn-soft">Análise da candidatura</a>
+                <span class="admin-btn-primary">Termo e entrega</span>
+            </div>
+
+            <form th:action="@{/admin/adocoes/{c}/concluir(c=${solicitacao.codigo})}" method="post">
+                <div class="admin-dash-grid" style="grid-template-columns: 1.55fr 0.75fr; align-items: start;">
+                    <section class="admin-card">
+                        <h2 class="admin-card-title" style="font-size:20px;margin-bottom:20px;">Termo de adoção responsável</h2>
+
+                        <div class="form-row-2" style="margin-bottom:20px;">
+                            <div>
+                                <p class="kpi-label">Adotante</p>
+                                <p class="table-primary-text" style="font-size:15px;" th:text="${solicitacao.adotanteNome}">Ana Souza</p>
+                            </div>
+                            <div>
+                                <p class="kpi-label">Animal</p>
+                                <p class="table-primary-text" style="font-size:15px;" th:text="${solicitacao.animalNome}">Luna</p>
+                            </div>
+                        </div>
+
+                        <div class="modal-form">
+                            <div class="form-row-2">
+                                <div class="form-group">
+                                    <label class="form-label">Data da assinatura *</label>
+                                    <input type="text" class="form-control" value="18/11/2026" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Data da entrega *</label>
+                                    <input type="text" class="form-control" value="18/11/2026" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Responsável pela entrega *</label>
+                                <input type="text" class="form-control" value="Mariana Costa" required>
+                            </div>
+
+                            <div style="background:#EEF4F1;border-radius:10px;padding:14px 16px;">
+                                <p class="table-primary-text" style="color:#237463;margin-bottom:4px;">Aguardando aceite do usuário</p>
+                                <p class="table-sub-text">O aceite libera a conferência final e a entrega.</p>
+                            </div>
+
+                            <p style="font-size:12.5px;font-weight:600;color:#237463;">
+                                ✓ Confirmo a conferência dos documentos e a entrega responsável.
+                            </p>
+                        </div>
+                    </section>
+
+                    <aside class="campaign-admin-card" style="justify-content: flex-start; gap: 18px;">
+                        <h2 class="admin-card-title" style="font-size:18px;">Cuidado depois da entrega.</h2>
+                        <div>
+                            <p class="admin-eyebrow">7 DIAS</p>
+                            <p class="admin-subtitle">25 de novembro de 2026</p>
+                        </div>
+                        <div>
+                            <p class="admin-eyebrow">30 DIAS</p>
+                            <p class="admin-subtitle">18 de dezembro de 2026</p>
+                        </div>
+                        <p class="admin-subtitle" style="line-height:1.55;">Registre como está a adaptação e ofereça apoio à nova família.</p>
+                        <p class="admin-subtitle" style="font-size:11.5px;margin-top:auto;">Ao concluir, a situação será atualizada para "Adotada" no acompanhamento.</p>
+                    </aside>
+                </div>
+
+                <div class="admin-form-actions">
+                    <div style="display:flex;gap:12px;flex-wrap:wrap;">
+                        <a th:href="@{/admin/adocoes/{c}/analisar(c=${solicitacao.codigo})}" class="admin-btn-soft">Voltar à análise</a>
+                        <a th:href="@{/admin/adocoes/{c}/acompanhamento(c=${solicitacao.codigo})}" class="admin-btn-soft">Ver acompanhamento</a>
+                    </div>
+                    <button type="submit" class="admin-btn-primary">Concluir adoção e entrega</button>
+                </div>
+            </form>
+        </main>
+    </div>
+</div>
+
+<div th:replace="~{fragments/admin-layout :: meuPerfilModal}"></div>
+<script th:src="@{/js/admin.js}"></script>
+</body>
+</html>

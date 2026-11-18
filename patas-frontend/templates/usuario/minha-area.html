@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minha área · Ampara</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/tokens.css}">
+    <link rel="stylesheet" th:href="@{/css/base.css}">
+    <link rel="stylesheet" th:href="@{/css/modals.css}">
+    <link rel="stylesheet" th:href="@{/css/acesso.css}">
+    <link rel="stylesheet" th:href="@{/css/usuario.css}">
+</head>
+<body class="user-page-bg">
+<div th:replace="~{fragments/header-usuario :: headerAmpara}"></div>
+
+<main class="user-shell">
+    <p class="section-eyebrow">MINHA CONTA</p>
+    <h1 class="user-page-title">Seu espaço de cuidado.</h1>
+    <p class="user-page-subtitle">Acompanhe suas solicitações e contribuições, sem perder nenhum passo.</p>
+
+    <nav class="area-tabs" aria-label="Abas da minha área">
+        <a th:href="@{/minha-area(aba='adocoes')}"
+           class="area-tab"
+           th:classappend="${abaAtiva == 'adocoes'} ? ' is-active'">
+            Minhas adoções
+        </a>
+        <a th:href="@{/minha-area(aba='doacoes')}"
+           class="area-tab"
+           th:classappend="${abaAtiva == 'doacoes'} ? ' is-active'">
+            Minhas doações
+        </a>
+        <a th:href="@{/minha-area(aba='perfil')}"
+           class="area-tab"
+           th:classappend="${abaAtiva == 'perfil'} ? ' is-active'">
+            Meu perfil
+        </a>
+    </nav>
+
+    <!-- ABA 1: MINHAS ADOÇÕES -->
+    <section th:if="${abaAtiva == 'adocoes'}">
+        <!-- Estado vazio fiel ao mockup -->
+        <div th:if="${#lists.isEmpty(solicitacoes)}" class="empty-story-card">
+            <div>
+                <h2 class="empty-story-title">Uma nova história pode começar aqui.</h2>
+                <p class="empty-story-text">
+                    Você ainda não enviou uma solicitação de adoção.<br>
+                    Conheça os animais e descubra quem combina com a sua rotina.
+                </p>
+                <a th:href="@{/}" class="btn btn-primary" style="min-width: 210px; padding: 13px 26px;">
+                    Conhecer animais
+                </a>
+                <p class="empty-story-note">Cada candidatura passa por análise da equipe da ONG.</p>
+            </div>
+
+            <div class="empty-story-media">
+                <img th:src="@{/assets/images/Luna.svg}" alt="Luna aguardando um lar">
+            </div>
+        </div>
+
+        <!-- Lista quando houver solicitações enviadas -->
+        <div th:if="${!#lists.isEmpty(solicitacoes)}" class="area-list-grid">
+            <article th:each="sol : ${solicitacoes}" class="area-white-card">
+                <p class="section-eyebrow" th:text="${'SOLICITAÇÃO #' + sol.codigo}">SOLICITAÇÃO #AD-0048</p>
+                <h2 class="termo-header-title" style="margin-bottom: 4px;"
+                    th:text="${sol.animalNome + ' · ' + sol.adotanteNome}">Luna · Ana Souza</h2>
+                <span class="status-badge-text" th:text="${sol.statusLabel}">Em análise</span>
+
+                <p class="auth-subheading" style="margin-bottom: 18px;" th:text="${sol.moradia}">
+                    Apartamento próprio, com telas de proteção.
+                </p>
+
+                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                    <a th:if="${sol.status == 'EM_ANALISE'}"
+                       th:href="@{/minha-area/solicitacao/{c}(c=${sol.codigo})}"
+                       class="btn btn-primary">Acompanhar análise</a>
+
+                    <a th:if="${sol.status == 'APROVADA'}"
+                       th:href="@{/minha-area/solicitacao/{c}/termo(c=${sol.codigo})}"
+                       class="btn btn-primary">Ler e aceitar termo</a>
+
+                    <a th:if="${sol.status == 'TERMO_ACEITO'}"
+                       th:href="@{/animais/{id}(id=${sol.animalId})}"
+                       class="btn btn-soft">Ver perfil do animal</a>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <!-- ABA 2: MINHAS DOAÇÕES -->
+    <section th:if="${abaAtiva == 'doacoes'}">
+        <div th:if="${#lists.isEmpty(doacoes)}" class="area-white-card">
+            <h2 class="empty-story-title" style="font-size: 22px;">Nenhuma doação registrada ainda.</h2>
+            <p class="empty-story-text" style="margin-bottom: 18px;">
+                Suas contribuições ajudam a manter alimentação, vacinas e cuidados veterinários dos animais acolhidos.
+            </p>
+            <button type="button" class="btn btn-primary" data-open-modal="modal-doacao">
+                Ajudar com uma doação
+            </button>
+        </div>
+
+        <div th:if="${!#lists.isEmpty(doacoes)}" class="area-list-grid">
+            <article th:each="d : ${doacoes}" class="area-white-card">
+                <p class="section-eyebrow" th:text="${d.dataHora}">18/11/2026</p>
+                <h2 class="termo-header-title" style="margin-bottom: 4px;" th:text="${d.valor}">R$ 100,00</h2>
+                <span class="status-badge-text" th:text="${d.formaPagamento + ' · ' + d.status}">Pix · Demonstrativa</span>
+                <p class="auth-subheading" style="margin-bottom: 0;" th:text="${d.campanha}">
+                    Um pote cheio. Muitas vidas felizes.
+                </p>
+            </article>
+        </div>
+    </section>
+
+    <!-- ABA 3: MEU PERFIL -->
+    <section th:if="${abaAtiva == 'perfil'}" class="area-white-card" style="max-width: 620px;">
+        <h2 class="termo-header-title">Dados da conta</h2>
+        <form class="auth-form" onsubmit="event.preventDefault(); setFeedback(document.getElementById('perfil-feedback'), 'Dados atualizados com sucesso!', false);">
+            <div class="form-group">
+                <label for="perfil-nome" class="form-label">Nome completo</label>
+                <input id="perfil-nome" type="text" class="form-control" value="Ana Souza" required>
+            </div>
+            <div class="form-group">
+                <label for="perfil-email" class="form-label">E-mail</label>
+                <input id="perfil-email" type="email" class="form-control" value="ana.souza@exemplo.com" required>
+            </div>
+            <div class="form-group">
+                <label for="perfil-tel" class="form-label">Telefone</label>
+                <input id="perfil-tel" type="text" class="form-control" value="(11) 99999-0123">
+            </div>
+            <div id="perfil-feedback" class="modal-feedback" role="status"></div>
+            <button type="submit" class="btn btn-primary" style="width: fit-content; padding: 12px 26px;">
+                Salvar alterações
+            </button>
+        </form>
+    </section>
+</main>
+
+<div th:replace="~{fragments/modals :: modals}"></div>
+<script th:src="@{/js/app.js}"></script>
+</body>
+</html>

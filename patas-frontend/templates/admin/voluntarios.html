@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voluntários · Ampara Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/tokens.css}">
+    <link rel="stylesheet" th:href="@{/css/base.css}">
+    <link rel="stylesheet" th:href="@{/css/modals.css}">
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+</head>
+<body class="admin-body">
+<div class="admin-layout">
+    <div th:replace="~{fragments/admin-layout :: sidebar(${menuAtivo}, ${pendentesCount})}"></div>
+
+    <div class="admin-main-col">
+        <div th:replace="~{fragments/admin-layout :: topbar('Área administrativa')}"></div>
+
+        <main class="admin-content">
+            <div class="admin-page-head">
+                <div>
+                    <p class="admin-eyebrow">GESTÃO / VOLUNTÁRIOS</p>
+                    <h1 class="admin-title">Equipe de voluntários</h1>
+                    <p class="admin-subtitle">Organize pessoas, disponibilidade e frentes de atuação.</p>
+                </div>
+                <div class="admin-head-actions">
+                    <a th:href="@{/admin/voluntarios/novo}" class="admin-btn-primary">Cadastrar voluntário</a>
+                </div>
+            </div>
+
+            <!-- 4 CARDS KPI -->
+            <section class="kpi-grid">
+                <article class="kpi-card">
+                    <div>
+                        <p class="kpi-value" style="margin-bottom:4px;">18</p>
+                        <p class="kpi-label" style="margin-bottom:0;">Voluntários ativos</p>
+                    </div>
+                </article>
+                <article class="kpi-card">
+                    <div>
+                        <p class="kpi-value" style="margin-bottom:4px;">6</p>
+                        <p class="kpi-label" style="margin-bottom:0;">Em integração</p>
+                    </div>
+                </article>
+                <article class="kpi-card">
+                    <div>
+                        <p class="kpi-value" style="margin-bottom:4px;">4</p>
+                        <p class="kpi-label" style="margin-bottom:0;">No plantão de hoje</p>
+                    </div>
+                </article>
+                <article class="kpi-card">
+                    <div>
+                        <p class="kpi-value" style="margin-bottom:4px;">12 h</p>
+                        <p class="kpi-label" style="margin-bottom:0;">Média mensal por pessoa</p>
+                    </div>
+                </article>
+            </section>
+
+            <!-- CARD TABELA EQUIPE VOLUNTÁRIA -->
+            <section class="admin-card" style="padding: 20px 0 12px; margin-bottom: 22px;">
+                <div class="admin-card-head" style="padding: 0 24px; align-items: center;">
+                    <h2 class="admin-card-title">Equipe voluntária</h2>
+                    <div style="min-width: 280px; max-width: 420px; flex: 1;">
+                        <label class="form-label" for="buscar-voluntario" style="display:block;margin-bottom:6px;">Buscar voluntário</label>
+                        <input id="buscar-voluntario" type="search" class="form-control" style="height:40px;" placeholder="Nome, e-mail ou frente de atuação...">
+                    </div>
+                </div>
+
+                <div class="admin-table-wrap">
+                    <table class="admin-table">
+                        <thead>
+                        <tr>
+                            <th>Pessoa</th>
+                            <th>Frente de atuação</th>
+                            <th>Disponibilidade</th>
+                            <th>Situação</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="v : ${voluntarios}"
+                            data-voluntario-row
+                            th:attr="data-busca=${v.nome + ' ' + v.email + ' ' + v.frente}">
+                            <td>
+                                <p class="table-primary-text" th:text="${v.nome}">Pedro Martins</p>
+                                <p class="table-sub-text" th:text="${v.email}">pedro@exemplo.com</p>
+                            </td>
+                            <td th:text="${v.frente}">Passeios e socialização</td>
+                            <td th:text="${v.disponibilidade}">Sábados · Manhã</td>
+                            <td>
+                                <span class="status-pill"
+                                      th:classappend="${v.status == 'Ativo' or v.status == 'Ativa'} ? ' disponivel' : ' tratamento'"
+                                      th:text="${v.status}">Ativo</span>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- BANNER INFERIOR -->
+            <section class="campaign-admin-card" style="padding: 24px 28px;">
+                <h2 class="admin-card-title" style="font-size: 20px; margin-bottom: 10px;">
+                    Acolher quem chega também faz parte.
+                </h2>
+                <p class="admin-subtitle" style="color: #466155; margin-bottom: 8px;">
+                    Sábado, 21 de novembro · 09:00 às 11:00 · Sede da ONG
+                </p>
+                <p class="admin-subtitle" style="color: #5C6F67;">
+                    Conhecimento da rotina, orientações de segurança e distribuição das atividades.
+                </p>
+            </section>
+        </main>
+    </div>
+</div>
+
+<div th:replace="~{fragments/admin-layout :: meuPerfilModal}"></div>
+<div th:replace="~{fragments/admin-layout :: registroSalvo(${salvo})}"></div>
+<script th:src="@{/js/admin.js}"></script>
+</body>
+</html>

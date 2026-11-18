@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acompanhamento pós-adoção · Ampara Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/tokens.css}">
+    <link rel="stylesheet" th:href="@{/css/base.css}">
+    <link rel="stylesheet" th:href="@{/css/modals.css}">
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+</head>
+<body class="admin-body">
+<div class="admin-layout">
+    <div th:replace="~{fragments/admin-layout :: sidebar(${menuAtivo}, ${pendentesCount})}"></div>
+
+    <div class="admin-main-col">
+        <div th:replace="~{fragments/admin-layout :: topbar('Área administrativa')}"></div>
+
+        <main class="admin-content">
+            <div class="admin-page-head">
+                <div>
+                    <p class="admin-eyebrow" th:text="${'ADOÇÕES / #' + solicitacao.codigo + ' / ACOMPANHAMENTO'}">ADOÇÕES / #AD-0048 / ACOMPANHAMENTO</p>
+                    <h1 class="admin-title">Acompanhar a adaptação</h1>
+                    <p class="admin-subtitle">Após a entrega, registre o contato com a família em 7 e 30 dias.</p>
+                </div>
+            </div>
+
+            <section class="campaign-admin-card" style="padding:20px 24px;margin-bottom:20px;">
+                <h2 class="admin-card-title" style="font-size:20px;margin-bottom:4px;" th:text="${solicitacao.adotanteNome + ' e ' + solicitacao.animalNome}">Ana Souza e Luna</h2>
+                <p class="admin-subtitle" th:text="${'#' + solicitacao.codigo + ' · Contato: ' + solicitacao.email + ' · ' + solicitacao.telefone}"></p>
+            </section>
+
+            <form th:action="@{/admin/adocoes/{c}/acompanhamento(c=${solicitacao.codigo})}" method="post">
+                <section class="admin-card">
+                    <div class="modal-form">
+                        <div class="form-row-2">
+                            <div class="form-group">
+                                <label class="form-label">Etapa de contato</label>
+                                <input type="text" class="form-control" value="7 dias após a entrega" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Data do contato</label>
+                                <input type="text" class="form-control" value="25/11/2026 · contato de 7 dias" required>
+                            </div>
+                        </div>
+                        <div class="form-row-2">
+                            <div class="form-group">
+                                <label class="form-label">Situação da adaptação</label>
+                                <input type="text" class="form-control" value="Contato a realizar" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Responsável pelo contato</label>
+                                <input type="text" class="form-control" value="Mariana Costa" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Observações da família</label>
+                            <input type="text" class="form-control" placeholder="Registrar alimentação, rotina, comportamento e dúvidas.">
+                        </div>
+                        <p class="admin-subtitle" style="margin-top:4px;">Próxima etapa: contato de 30 dias em 18/12/2026, considerando a entrega prevista para 18/11/2026.</p>
+                    </div>
+                </section>
+
+                <div class="admin-form-actions">
+                    <a th:href="@{/admin/adocoes}" class="admin-btn-soft">Voltar às adoções</a>
+                    <button type="submit" class="admin-btn-primary">Salvar acompanhamento</button>
+                </div>
+            </form>
+        </main>
+    </div>
+</div>
+
+<div th:replace="~{fragments/admin-layout :: meuPerfilModal}"></div>
+<script th:src="@{/js/admin.js}"></script>
+</body>
+</html>

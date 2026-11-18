@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adoções · Ampara Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/tokens.css}">
+    <link rel="stylesheet" th:href="@{/css/base.css}">
+    <link rel="stylesheet" th:href="@{/css/modals.css}">
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+</head>
+<body class="admin-body">
+<div class="admin-layout">
+    <div th:replace="~{fragments/admin-layout :: sidebar(${menuAtivo}, ${pendentesCount})}"></div>
+
+    <div class="admin-main-col">
+        <div th:replace="~{fragments/admin-layout :: topbar('Área administrativa')}"></div>
+
+        <main class="admin-content">
+            <div class="admin-page-head">
+                <div>
+                    <p class="admin-eyebrow">GESTÃO / ADOÇÕES</p>
+                    <h1 class="admin-title">Solicitações de adoção</h1>
+                    <p class="admin-subtitle">Acompanhe cada candidatura, da primeira conversa até o novo lar.</p>
+                </div>
+                <div class="admin-head-actions">
+                    <a th:href="@{/}" class="admin-btn-soft">Ver página de adoção</a>
+                </div>
+            </div>
+
+            <!-- 4 KPIs -->
+            <section class="kpi-grid">
+                <article class="kpi-card"><div><p class="kpi-value" style="margin-bottom:4px;">8</p><p class="kpi-label" style="margin-bottom:0;">Novas solicitações</p></div></article>
+                <article class="kpi-card"><div><p class="kpi-value" style="margin-bottom:4px;">5</p><p class="kpi-label" style="margin-bottom:0;">Em análise</p></div></article>
+                <article class="kpi-card"><div><p class="kpi-value" style="margin-bottom:4px;">3</p><p class="kpi-label" style="margin-bottom:0;">Entrevistas agendadas</p></div></article>
+                <article class="kpi-card"><div><p class="kpi-value" style="margin-bottom:4px;">24</p><p class="kpi-label" style="margin-bottom:0;">Adoções neste mês</p></div></article>
+            </section>
+
+            <!-- KANBAN 3 COLUNAS -->
+            <section style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:24px;">
+                <!-- Coluna 1 -->
+                <div style="background:#EFF4F1;border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:14px;">
+                    <h2 class="admin-card-title" style="font-size:15px;">Solicitações recentes</h2>
+
+                    <article th:each="sol : ${solicitacoes}" class="admin-card" style="padding:18px;">
+                        <h3 class="table-primary-text" style="font-size:16px;margin-bottom:4px;" th:text="${sol.adotanteNome}">Ana Souza</h3>
+                        <p class="admin-card-link" style="margin-bottom:10px;display:block;" th:text="${sol.animalNome}">Luna</p>
+                        <p class="table-sub-text">Moradia informada · Contato recebido</p>
+                        <p class="table-sub-text" style="margin-bottom:14px;" th:text="${sol.statusLabel}">Em análise</p>
+                        <a th:href="@{/admin/adocoes/{c}/analisar(c=${sol.codigo})}" class="admin-btn-soft" style="width:100%;justify-content:center;">Ver candidatura</a>
+                    </article>
+
+                    <article class="admin-card" style="padding:18px;">
+                        <h3 class="table-primary-text" style="font-size:16px;margin-bottom:4px;">Paula Martins</h3>
+                        <p class="admin-card-link" style="margin-bottom:10px;display:block;">Interesse em adotar Nina</p>
+                        <p class="table-sub-text">Moradia informada · Contato recebido</p>
+                        <p class="table-sub-text" style="margin-bottom:14px;">17 nov · Há 1 dia</p>
+                        <a th:href="@{/admin/adocoes/AD-0048/analisar}" class="admin-card-link" style="display:block;text-align:center;">Em acompanhamento</a>
+                    </article>
+                </div>
+
+                <!-- Coluna 2 -->
+                <div style="background:#EFF4F1;border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:14px;">
+                    <h2 class="admin-card-title" style="font-size:15px;">Em análise · 5</h2>
+
+                    <article class="admin-card" style="padding:18px;">
+                        <h3 class="table-primary-text" style="font-size:16px;margin-bottom:4px;">Miguel Santos</h3>
+                        <p class="admin-card-link" style="margin-bottom:10px;display:block;">Interesse em adotar Chico</p>
+                        <p class="table-sub-text">Moradia informada · Contato recebido</p>
+                        <p class="table-sub-text" style="margin-bottom:14px;">Entrevista em agendamento</p>
+                        <a th:href="@{/admin/adocoes/AD-0048/entrevista}" class="admin-card-link" style="display:block;text-align:center;">Em acompanhamento</a>
+                    </article>
+
+                    <article class="admin-card" style="padding:18px;">
+                        <h3 class="table-primary-text" style="font-size:16px;margin-bottom:4px;">Juliana Alves</h3>
+                        <p class="admin-card-link" style="margin-bottom:10px;display:block;">Interesse em adotar Luna</p>
+                        <p class="table-sub-text">Moradia informada · Contato recebido</p>
+                        <p class="table-sub-text" style="margin-bottom:14px;">Contato inicial realizado</p>
+                        <a th:href="@{/admin/adocoes/AD-0048/analisar}" class="admin-card-link" style="display:block;text-align:center;">Em acompanhamento</a>
+                    </article>
+                </div>
+
+                <!-- Coluna 3 -->
+                <div style="background:#EFF4F1;border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:14px;">
+                    <h2 class="admin-card-title" style="font-size:15px;">Entrevista · 3</h2>
+
+                    <article class="admin-card" style="padding:18px;">
+                        <h3 class="table-primary-text" style="font-size:16px;margin-bottom:4px;">Clara Oliveira</h3>
+                        <p class="admin-card-link" style="margin-bottom:10px;display:block;">Interesse em adotar Chico</p>
+                        <p class="table-sub-text">Moradia informada · Contato recebido</p>
+                        <p class="table-sub-text" style="margin-bottom:14px;">19 nov · 10:00</p>
+                        <a th:href="@{/admin/adocoes/AD-0048/termo}" class="admin-card-link" style="display:block;text-align:center;">Em acompanhamento</a>
+                    </article>
+
+                    <article class="admin-card" style="padding:18px;">
+                        <h3 class="table-primary-text" style="font-size:16px;margin-bottom:4px;">Renata Costa</h3>
+                        <p class="admin-card-link" style="margin-bottom:10px;display:block;">Interesse em adotar Nina</p>
+                        <p class="table-sub-text">Moradia informada · Contato recebido</p>
+                        <p class="table-sub-text" style="margin-bottom:14px;">20 nov · 14:30</p>
+                        <a th:href="@{/admin/adocoes/AD-0048/termo}" class="admin-card-link" style="display:block;text-align:center;">Em acompanhamento</a>
+                    </article>
+                </div>
+            </section>
+
+            <div>
+                <p class="admin-subtitle" style="font-size:11.5px;margin-bottom:10px;">Cada candidatura passa por análise e entrevista antes da adoção.</p>
+                <a th:href="@{/admin/adocoes/AD-0048/acompanhamento}" class="admin-btn-soft">Acompanhamento pós-adoção</a>
+            </div>
+        </main>
+    </div>
+</div>
+
+<div th:replace="~{fragments/admin-layout :: meuPerfilModal}"></div>
+<div th:replace="~{fragments/admin-layout :: registroSalvo(${salvo})}"></div>
+<script th:src="@{/js/admin.js}"></script>
+</body>
+</html>

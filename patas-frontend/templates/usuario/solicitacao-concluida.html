@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${solicitacao.animalNome + ' tem um novo lar · Ampara'}">Luna tem um novo lar · Ampara</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/tokens.css}">
+    <link rel="stylesheet" th:href="@{/css/base.css}">
+    <link rel="stylesheet" th:href="@{/css/acesso.css}">
+    <link rel="stylesheet" th:href="@{/css/usuario.css}">
+</head>
+<body class="user-page-bg">
+<div th:replace="~{fragments/header-usuario :: headerAmpara}"></div>
+
+<main class="user-shell">
+    <p class="section-eyebrow" th:text="${'MINHAS ADOÇÕES / #' + solicitacao.codigo}">MINHAS ADOÇÕES / #AD-0048</p>
+    <h1 class="user-page-title" th:text="${solicitacao.animalNome + ' tem um novo lar'}">Luna tem um novo lar</h1>
+    <p class="user-page-subtitle">A entrega foi confirmada pela ONG. Agora começa o período de adaptação.</p>
+
+    <section class="area-white-card">
+        <h2 class="termo-header-title" style="margin-bottom: 2px;"
+            th:text="${solicitacao.animalNome + ' · ' + solicitacao.adotanteNome}">Luna · Ana Souza</h2>
+        <span class="status-badge-text">Adoção concluída</span>
+
+        <div class="commitment-text" style="margin-bottom: 28px;">
+            <p>
+                A ONG acompanha vocês após 7 e 30 dias.<br>
+                Em caso de dúvidas, fale com a equipe:<br>
+                <strong>contato@patasdobem.org.br</strong>
+            </p>
+        </div>
+
+        <a th:href="@{/}" class="btn btn-primary" style="min-width: 240px; padding: 13px 24px;">
+            Conhecer outros animais
+        </a>
+    </section>
+
+    <p class="empty-story-note" style="margin-top: 26px; margin-bottom: 24px;">
+        A assinatura oficial e a entrega são combinadas diretamente com a ONG.
+    </p>
+
+    <a th:href="@{/minha-area}" class="btn btn-soft" style="min-width: 190px; padding: 12px 24px;">
+        Voltar à minha área
+    </a>
+</main>
+</body>
+</html>

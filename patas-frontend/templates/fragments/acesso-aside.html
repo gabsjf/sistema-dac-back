@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<aside th:fragment="aside(titleLine1, titleLine2, subtitle)" class="auth-aside">
+    <a th:href="@{/}" class="auth-brand" aria-label="Ampara - Voltar ao início">
+        <span class="brand-badge" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+                <circle cx="7.5" cy="9.5" r="1.9"/>
+                <circle cx="11.2" cy="6.8" r="1.9"/>
+                <circle cx="15.3" cy="7.6" r="1.8"/>
+                <circle cx="17.8" cy="11.2" r="1.7"/>
+                <path d="M12.2 11.4c-2.6 0-4.9 1.8-5.3 4.3-.3 1.7.9 3.1 2.6 3.1 1 0 1.8-.4 2.7-.4.9 0 1.7.4 2.7.4 1.7 0 2.9-1.4 2.6-3.1-.4-2.5-2.7-4.3-5.3-4.3z"/>
+            </svg>
+        </span>
+        <span class="auth-brand-name">ampara</span>
+    </a>
+
+    <div class="auth-aside-body">
+        <h1 class="auth-aside-title">
+            <span th:text="${titleLine1}">Juntos, por</span><br>
+            <span th:text="${titleLine2}">novos começos.</span>
+        </h1>
+        <p class="auth-aside-subtitle" th:text="${subtitle}">
+            Adote, ajude e acompanhe cada passo. Uma rede que cuida de quem mais precisa.
+        </p>
+
+        <div class="auth-photo-card">
+            <img th:src="@{/assets/images/Voluntaria-pet.svg}" alt="Voluntária cuidando de um cachorro resgatado">
+            <div class="auth-photo-badge">Juntos por cada novo começo.</div>
+        </div>
+    </div>
+
+    <div class="auth-aside-footer">
+        <p class="auth-aside-mission">Cuidar de quem cuida também é a nossa missão.</p>
+        <p class="auth-aside-org">ONG Patas do Bem · Gestão com propósito</p>
+    </div>
+</aside>
+</body>
+</html>

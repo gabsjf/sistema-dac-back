@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar ou editar animal · Ampara Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/tokens.css}">
+    <link rel="stylesheet" th:href="@{/css/base.css}">
+    <link rel="stylesheet" th:href="@{/css/modals.css}">
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+</head>
+<body class="admin-body">
+<div class="admin-layout">
+    <div th:replace="~{fragments/admin-layout :: sidebar(${menuAtivo}, ${pendentesCount})}"></div>
+
+    <div class="admin-main-col">
+        <div th:replace="~{fragments/admin-layout :: topbar('Área administrativa')}"></div>
+
+        <main class="admin-content">
+            <div class="admin-page-head">
+                <div>
+                    <p class="admin-eyebrow">ANIMAIS / CADASTRO</p>
+                    <h1 class="admin-title">Todas as informações, em um só lugar.</h1>
+                    <p class="admin-subtitle">Cadastre ou atualize os dados essenciais de identificação, acolhimento e saúde.</p>
+                </div>
+            </div>
+
+            <form th:action="@{/admin/animais/salvar}" method="post">
+                <input type="hidden" name="id" th:value="${modoEdicao ? animal.id : ''}">
+
+                <div class="admin-dash-grid" style="grid-template-columns: 1.5fr 0.75fr; align-items: start;">
+                    <section class="admin-card">
+                        <h2 class="admin-card-title" style="margin-bottom: 18px;">Identificação e acolhimento</h2>
+                        <div class="modal-form">
+                            <div class="form-row-2">
+                                <div class="form-group">
+                                    <label class="form-label" for="an-nome">Nome *</label>
+                                    <input id="an-nome" name="nome" type="text" class="form-control" th:value="${modoEdicao ? animal.nome : 'Nina'}" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="an-esp">Espécie *</label>
+                                    <select id="an-esp" name="especieSexo" class="form-control">
+                                        <option value="Felina, fêmea" th:selected="${!modoEdicao or animal.especieSexo.contains('Felina')}">Felina</option>
+                                        <option value="Canina, fêmea" th:selected="${modoEdicao and animal.especieSexo.contains('Canina')}">Canina</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px;">
+                                <div class="form-group">
+                                    <label class="form-label">Sexo *</label>
+                                    <select class="form-control"><option>Fêmea</option><option>Macho</option></select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="an-porte">Porte *</label>
+                                    <select id="an-porte" name="porte" class="form-control">
+                                        <option value="Pequeno" th:selected="${!modoEdicao or animal.porte == 'Pequeno'}">Pequeno</option>
+                                        <option value="Médio" th:selected="${modoEdicao and animal.porte == 'Médio'}">Médio</option>
+                                        <option value="Grande" th:selected="${modoEdicao and animal.porte == 'Grande'}">Grande</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="an-idade">Idade aproximada *</label>
+                                    <input id="an-idade" name="idade" type="text" class="form-control" th:value="${modoEdicao ? animal.idade : '1 ano'}" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Peso (kg)</label>
+                                    <input type="text" class="form-control" value="3.5 kg">
+                                </div>
+                            </div>
+
+                            <div class="form-row-2">
+                                <div class="form-group">
+                                    <label class="form-label">Acolhimento *</label>
+                                    <input type="text" class="form-control" value="10/11/2026">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Origem *</label>
+                                    <select class="form-control"><option>Resgate</option><option>Entrega voluntária</option><option>Parceria</option></select>
+                                </div>
+                            </div>
+
+                            <div class="form-row-2">
+                                <div class="form-group">
+                                    <label class="form-label" for="an-sit">Situação *</label>
+                                    <select id="an-sit" name="situacao" class="form-control">
+                                        <option value="Disponível" th:selected="${!modoEdicao or animal.situacao == 'Disponível'}">Disponível</option>
+                                        <option value="Em tratamento" th:selected="${modoEdicao and animal.situacao == 'Em tratamento'}">Em tratamento</option>
+                                        <option value="Em adaptação" th:selected="${modoEdicao and animal.situacao == 'Em adaptação'}">Em adaptação</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Responsável *</label>
+                                    <select class="form-control"><option>Mariana Costa</option><option>Rafael Lima</option><option>Camila Rocha</option></select>
+                                </div>
+                            </div>
+
+                            <div>
+                                <p class="form-label" style="margin-bottom:8px;">Cuidados realizados</p>
+                                <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;">
+                                    <span class="admin-role-pill">✓ Vacinada</span>
+                                    <span class="admin-role-pill">✓ Castrada</span>
+                                    <span class="admin-role-pill">✓ Vermifugada</span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="an-obs">Descrição para adoção</label>
+                                <textarea id="an-obs" name="observacoes" class="form-control form-textarea" th:text="${modoEdicao ? animal.observacoes : 'Nina é dócil, curiosa e gosta de companhia. Procura uma família que ofereça proteção e uma rotina tranquila.'}"></textarea>
+                            </div>
+                        </div>
+                    </section>
+
+                    <aside class="campaign-admin-card" style="justify-content: flex-start; gap: 16px;">
+                        <h2 class="admin-card-title" style="font-size: 18px;">Foto principal</h2>
+                        <div style="border-radius:12px;overflow:hidden;height:185px;background:#DCE8E2;">
+                            <img id="animal-photo-preview" th:src="@{/assets/images/Nina-card.svg}" alt="Foto do animal" style="width:100%;height:100%;object-fit:cover;display:block;">
+                        </div>
+                        <label id="animal-photo-dropzone" for="animal-photo-input" style="background:#FFFFFF;border:1px dashed #B9CEC4;border-radius:10px;padding:18px;text-align:center;cursor:pointer;display:block;transition:border-color 0.16s ease, background-color 0.16s ease;">
+                            <input id="animal-photo-input" type="file" accept="image/svg+xml,image/png,image/jpeg,image/webp" hidden>
+                            <p style="font-size:12.5px;font-weight:600;color:#237463;margin-bottom:4px;">Arraste a foto do animal ou clique para selecionar</p>
+                            <p id="animal-photo-filename" style="font-size:11px;color:#7B8883;">SVG, JPG ou PNG · até 5 MB</p>
+                        </label>
+                        <p style="font-size:12.5px;font-weight:600;color:#237463;">✓ Publicar no catálogo de adoção</p>
+                        <p class="admin-subtitle" style="font-size:11.5px;line-height:1.55;">
+                            Somente nome, foto e características ficam visíveis ao público.<br><br>
+                            Prontuário e dados internos são restritos à equipe.
+                        </p>
+                    </aside>
+                </div>
+
+                <div class="admin-form-actions">
+                    <a th:href="@{/admin/animais}" class="admin-btn-soft">Cancelar animal</a>
+                    <button type="submit" class="admin-btn-primary">Salvar animal</button>
+                </div>
+            </form>
+        </main>
+    </div>
+</div>
+
+<div th:replace="~{fragments/admin-layout :: meuPerfilModal}"></div>
+<script th:src="@{/js/admin.js}"></script>
+</body>
+</html>

@@ -1,0 +1,167 @@
+/* =========================================================
+   MODAIS (DOAÇÃO DEMONSTRATIVA, ADOÇÃO E AUTENTICAÇÃO)
+   ========================================================= */
+
+.modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(24, 34, 29, 0.42);
+    backdrop-filter: blur(2px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.modal-backdrop.is-open {
+    display: flex;
+    opacity: 1;
+}
+
+.modal-dialog {
+    background-color: #FFFFFF;
+    width: 100%;
+    max-width: 560px;
+    border-radius: var(--radius-xl);
+    padding: 32px 34px 34px;
+    box-shadow: var(--shadow-modal);
+    animation: modalSlideUp 0.2s ease-out;
+}
+
+@keyframes modalSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px) scale(0.985);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.modal-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
+}
+
+.modal-close-btn {
+    background-color: #EAF3EF;
+    color: var(--brand-primary);
+    border: none;
+    border-radius: var(--radius-sm);
+    padding: 9px 18px;
+    font-size: 12.5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.16s ease;
+}
+
+.modal-close-btn:hover {
+    background-color: var(--brand-primary-soft-hover);
+}
+
+.modal-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.form-row-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+.form-control {
+    width: 100%;
+    height: 44px;
+    padding: 0 14px;
+    border: 1px solid var(--border-input);
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    color: var(--text-primary);
+    background-color: #FFFFFF;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--border-focus);
+    box-shadow: 0 0 0 3px rgba(35, 116, 99, 0.12);
+}
+
+.form-textarea {
+    height: auto;
+    min-height: 88px;
+    padding: 12px 14px;
+    resize: vertical;
+}
+
+.campaign-note {
+    margin-top: 6px;
+    margin-bottom: 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.campaign-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.campaign-disclaimer {
+    font-size: 12.5px;
+    color: var(--text-muted);
+}
+
+.modal-feedback {
+    display: none;
+    padding: 14px 16px;
+    border-radius: var(--radius-sm);
+    background-color: #EAF3EF;
+    color: #1D4D42;
+    font-size: 13.5px;
+    font-weight: 500;
+    border: 1px solid #C9E3D9;
+}
+
+.modal-feedback.is-visible {
+    display: block;
+}
+
+@media (max-width: 560px) {
+    .modal-dialog {
+        padding: 24px 20px;
+    }
+
+    .form-row-2 {
+        grid-template-columns: 1fr;
+    }
+}

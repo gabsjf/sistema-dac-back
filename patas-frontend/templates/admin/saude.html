@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saúde e cuidados · Ampara Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/tokens.css}">
+    <link rel="stylesheet" th:href="@{/css/base.css}">
+    <link rel="stylesheet" th:href="@{/css/modals.css}">
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+</head>
+<body class="admin-body">
+<div class="admin-layout">
+    <div th:replace="~{fragments/admin-layout :: sidebar(${menuAtivo}, ${pendentesCount})}"></div>
+
+    <div class="admin-main-col">
+        <div th:replace="~{fragments/admin-layout :: topbar('Área administrativa')}"></div>
+
+        <main class="admin-content">
+            <div class="admin-page-head">
+                <div>
+                    <p class="admin-eyebrow">GESTÃO / SAÚDE E CUIDADOS</p>
+                    <h1 class="admin-title">Agenda de saúde e cuidados</h1>
+                    <p class="admin-subtitle">Organize consultas, vacinas e a rotina de saúde dos animais.</p>
+                </div>
+                <div class="admin-head-actions">
+                    <a th:href="@{/admin/saude/novo}" class="admin-btn-primary">Registrar atendimento</a>
+                </div>
+            </div>
+
+            <!-- 4 KPIs -->
+            <section class="kpi-grid">
+                <article class="kpi-card"><div><p class="kpi-value" style="margin-bottom:4px;">4</p><p class="kpi-label" style="margin-bottom:0;">Atendimentos hoje</p></div></article>
+                <article class="kpi-card"><div><p class="kpi-value" style="margin-bottom:4px;">12</p><p class="kpi-label" style="margin-bottom:0;">Animais em tratamento</p></div></article>
+                <article class="kpi-card"><div><p class="kpi-value" style="margin-bottom:4px;">9</p><p class="kpi-label" style="margin-bottom:0;">Vacinas nesta semana</p></div></article>
+                <article class="kpi-card"><div><p class="kpi-value" style="margin-bottom:4px;">3</p><p class="kpi-label" style="margin-bottom:0;">Retornos pendentes</p></div></article>
+            </section>
+
+            <!-- CALENDÁRIO SEMANAL -->
+            <section class="admin-card" style="padding: 16px 24px; margin-bottom: 22px; display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;">
+                <span class="table-primary-text" style="font-size:14px;">Novembro de 2026</span>
+                <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                    <span class="admin-btn-soft" style="background:#F6F7F8;color:#5B6B63;height:38px;">SEG 16</span>
+                    <span class="admin-btn-soft" style="background:#F6F7F8;color:#5B6B63;height:38px;">TER 17</span>
+                    <span class="admin-btn-primary" style="height:38px;">QUA 18</span>
+                    <span class="admin-btn-soft" style="background:#F6F7F8;color:#5B6B63;height:38px;">QUI 19</span>
+                    <span class="admin-btn-soft" style="background:#F6F7F8;color:#5B6B63;height:38px;">SEX 20</span>
+                    <span class="admin-btn-soft" style="background:#F6F7F8;color:#5B6B63;height:38px;">SÁB 21</span>
+                    <span class="admin-btn-soft" style="background:#F6F7F8;color:#5B6B63;height:38px;">DOM 22</span>
+                </div>
+            </section>
+
+            <!-- AGENDA + ATENÇÃO À ROTINA -->
+            <section class="admin-dash-grid" style="grid-template-columns: 1.75fr 0.85fr;">
+                <div class="admin-card">
+                    <h2 class="admin-card-title" style="margin-bottom: 20px;">Hoje · Quarta-feira, 18 de novembro</h2>
+                    <div class="agenda-list">
+                        <div th:each="item : ${agenda}" class="agenda-item" style="justify-content:space-between;">
+                            <div style="display:flex;align-items:center;gap:14px;">
+                                <span class="agenda-time is-mint" th:text="${item.horario}">09:00</span>
+                                <div>
+                                    <p class="agenda-info-title" th:text="${item.titulo}">Luna · Vacina múltipla</p>
+                                    <p class="agenda-info-sub" th:text="${item.local}">Dra. Camila · Consultório 1</p>
+                                </div>
+                            </div>
+                            <span style="font-size:11.5px;font-weight:600;color:#A77642;">Agendado</span>
+                        </div>
+                        <div class="agenda-item" style="justify-content:space-between;">
+                            <div style="display:flex;align-items:center;gap:14px;">
+                                <span class="agenda-time is-mint">16:00</span>
+                                <div>
+                                    <p class="agenda-info-title">Bento · Avaliação de adaptação</p>
+                                    <p class="agenda-info-sub">Dr. Rafael · Consultório 1</p>
+                                </div>
+                            </div>
+                            <span style="font-size:11.5px;font-weight:600;color:#A77642;">Agendado</span>
+                        </div>
+                    </div>
+                </div>
+
+                <aside class="campaign-admin-card" style="justify-content: flex-start; gap: 20px;">
+                    <h2 class="admin-card-title" style="font-size: 18px;">Atenção à rotina</h2>
+                    <div>
+                        <p class="admin-eyebrow">RETORNOS</p>
+                        <p class="admin-subtitle" style="color:#466155;line-height:1.65;">
+                            Thor · Reavaliar em 7 dias<br>
+                            Mel · Pós-operatório em 48 horas<br>
+                            Bento · Observar adaptação
+                        </p>
+                    </div>
+                    <div>
+                        <p class="admin-eyebrow">LEMBRETES</p>
+                        <p class="admin-subtitle" style="color:#5C6F67;line-height:1.6;">
+                            Confira as doses e o responsável antes de cada procedimento.<br><br>
+                            O histórico fica vinculado ao prontuário de cada animal.
+                        </p>
+                    </div>
+                </aside>
+            </section>
+        </main>
+    </div>
+</div>
+
+<div th:replace="~{fragments/admin-layout :: meuPerfilModal}"></div>
+<div th:replace="~{fragments/admin-layout :: registroSalvo(${salvo})}"></div>
+<script th:src="@{/js/admin.js}"></script>
+</body>
+</html>

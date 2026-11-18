@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="modals">
+
+    <!-- MODAL: DOAÇÃO DEMONSTRATIVA -->
+    <div id="modal-doacao" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modal-doacao-titulo">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h2 id="modal-doacao-titulo" class="modal-title">Seu gesto vira cuidado.</h2>
+                <button type="button" class="modal-close-btn" data-close-modal>Fechar doação</button>
+            </div>
+
+            <form id="form-doacao" class="modal-form">
+                <div class="form-group">
+                    <label for="doacao-nome" class="form-label">Nome</label>
+                    <input id="doacao-nome" name="nome" type="text" class="form-control" value="Ana Souza" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="doacao-email" class="form-label">E-mail</label>
+                    <input id="doacao-email" name="email" type="email" class="form-control" value="ana.souza@exemplo.com" required>
+                </div>
+
+                <div class="form-row-2">
+                    <div class="form-group">
+                        <label for="doacao-valor" class="form-label">Contribuição única</label>
+                        <input id="doacao-valor" name="valor" type="text" class="form-control" value="R$ 100,00" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="doacao-pagamento" class="form-label">Forma de pagamento</label>
+                        <select id="doacao-pagamento" name="formaPagamento" class="form-control">
+                            <option value="Pix" selected>Pix</option>
+                            <option value="Cartão de crédito">Cartão de crédito</option>
+                            <option value="Boleto bancário">Boleto bancário</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="campaign-note">
+                    <p class="campaign-title">Campanha: Um pote cheio. Muitas vidas felizes.</p>
+                    <p class="campaign-disclaimer">Demonstração: nenhum pagamento será processado.</p>
+                </div>
+
+                <div id="doacao-feedback" class="modal-feedback" role="status"></div>
+
+                <button type="submit" class="btn btn-primary btn-full">Simular doação</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: SOLICITAR ADOÇÃO -->
+    <div id="modal-adocao" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modal-adocao-titulo">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h2 id="modal-adocao-titulo" class="modal-title">Solicitar adoção</h2>
+                <button type="button" class="modal-close-btn" data-close-modal>Fechar</button>
+            </div>
+
+            <form id="form-adocao" class="modal-form">
+                <input type="hidden" id="adocao-animal-id" name="animalId">
+                <input type="hidden" id="adocao-animal-nome" name="animalNome">
+
+                <div class="form-group">
+                    <label for="adocao-nome" class="form-label">Nome completo</label>
+                    <input id="adocao-nome" name="nomeInteressado" type="text" class="form-control" placeholder="Seu nome completo" required>
+                </div>
+
+                <div class="form-row-2">
+                    <div class="form-group">
+                        <label for="adocao-email" class="form-label">E-mail</label>
+                        <input id="adocao-email" name="email" type="email" class="form-control" placeholder="voce@exemplo.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="adocao-telefone" class="form-label">Telefone / WhatsApp</label>
+                        <input id="adocao-telefone" name="telefone" type="text" class="form-control" placeholder="(11) 99999-9999" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="adocao-mensagem" class="form-label">Conte um pouco sobre seu lar</label>
+                    <textarea id="adocao-mensagem" name="mensagem" class="form-control form-textarea" placeholder="Casa ou apartamento, outros animais, rotina da família..."></textarea>
+                </div>
+
+                <div id="adocao-feedback" class="modal-feedback" role="status"></div>
+
+                <button type="submit" class="btn btn-primary btn-full">Enviar solicitação</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: RECUPERAR ACESSO -->
+    <div id="modal-recuperar" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modal-recuperar-titulo">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h2 id="modal-recuperar-titulo" class="modal-title">Recuperar acesso</h2>
+                <button type="button" class="modal-close-btn" data-close-modal>Fechar recuperação</button>
+            </div>
+
+            <form id="form-recuperar" class="modal-form">
+                <p class="auth-subheading" style="margin-bottom: 4px;">Informe o e-mail da sua conta.</p>
+
+                <div class="form-group">
+                    <label for="recuperar-email" class="form-label">E-mail</label>
+                    <input id="recuperar-email" name="email" type="email" class="form-control" value="ana.souza@exemplo.com" required>
+                </div>
+
+                <div id="recuperar-feedback" class="modal-feedback" role="status"></div>
+
+                <button type="submit" class="btn btn-primary btn-full">Enviar instruções</button>
+
+                <p class="campaign-disclaimer" style="margin-top: 4px;">
+                    Se o e-mail estiver cadastrado, você receberá as orientações.
+                </p>
+            </form>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

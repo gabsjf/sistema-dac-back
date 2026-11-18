@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visão geral · Ampara Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/tokens.css}">
+    <link rel="stylesheet" th:href="@{/css/base.css}">
+    <link rel="stylesheet" th:href="@{/css/modals.css}">
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+</head>
+<body class="admin-body">
+<div class="admin-layout">
+    <div th:replace="~{fragments/admin-layout :: sidebar(${menuAtivo}, ${pendentesCount})}"></div>
+
+    <div class="admin-main-col">
+        <div th:replace="~{fragments/admin-layout :: topbar('Área administrativa')}"></div>
+
+        <main class="admin-content">
+            <div class="admin-page-head">
+                <div>
+                    <p class="admin-eyebrow">CUIDAR COMEÇA POR AQUI</p>
+                    <h1 class="admin-title">Visão geral da ONG</h1>
+                    <p class="admin-subtitle">Acompanhe sua ONG e faça a diferença, todos os dias.</p>
+                </div>
+                <div class="admin-head-actions">
+                    <div class="popover-anchor">
+                        <button type="button" class="admin-date-pill" data-toggle-popover="popover-periodo" style="cursor:pointer;">
+                            <img th:src="@{/assets/icons/calendar.svg}" alt="" style="width:16px;height:16px;">
+                            <span id="current-period-label">01 – 30 nov, 2026</span>
+                            <img th:src="@{/assets/icons/chevron.svg}" alt="" style="width:14px;height:14px;">
+                        </button>
+                        <div id="popover-periodo" class="admin-popover" style="width:220px;padding:8px;">
+                            <button type="button" class="search-result-item" style="width:100%;border:none;background:none;cursor:pointer;" data-period-option="01 – 30 nov, 2026">01 – 30 nov, 2026</button>
+                            <button type="button" class="search-result-item" style="width:100%;border:none;background:none;cursor:pointer;" data-period-option="01 – 31 out, 2026">01 – 31 out, 2026</button>
+                            <button type="button" class="search-result-item" style="width:100%;border:none;background:none;cursor:pointer;" data-period-option="Últimos 6 meses">Últimos 6 meses</button>
+                        </div>
+                    </div>
+                    <a th:href="@{/admin/animais/novo}" class="admin-btn-primary">
+                        <img th:src="@{/assets/icons/plus.svg}" alt="" style="width:16px;height:16px;">
+                        Cadastrar animal
+                    </a>
+                </div>
+            </div>
+
+            <!-- INDICADORES KPI -->
+            <section class="kpi-grid">
+                <article class="kpi-card">
+                    <div>
+                        <p class="kpi-label">Animais acolhidos</p>
+                        <p class="kpi-value">128</p>
+                        <p class="kpi-delta is-green">+6 neste mês</p>
+                    </div>
+                    <span class="kpi-icon-box is-mint"><img th:src="@{/assets/icons/kpi-paw.svg}" alt=""></span>
+                </article>
+
+                <article class="kpi-card">
+                    <div>
+                        <p class="kpi-label">Adoções realizadas</p>
+                        <p class="kpi-value">24</p>
+                        <p class="kpi-delta is-amber">↑ 20% vs. mês anterior</p>
+                    </div>
+                    <span class="kpi-icon-box is-amber"><img th:src="@{/assets/icons/kpi-heart.svg}" alt=""></span>
+                </article>
+
+                <article class="kpi-card">
+                    <div>
+                        <p class="kpi-label">Em tratamento</p>
+                        <p class="kpi-value">12</p>
+                        <p class="kpi-delta is-violet">4 consultas hoje</p>
+                    </div>
+                    <span class="kpi-icon-box is-violet"><img th:src="@{/assets/icons/kpi-care.svg}" alt=""></span>
+                </article>
+
+                <article class="kpi-card">
+                    <div>
+                        <p class="kpi-label">Doações no mês</p>
+                        <p class="kpi-value"><span style="font-size:16px;margin-right:4px;">R$</span>8.450</p>
+                        <p class="kpi-delta is-green">↑ 12% vs. mês anterior</p>
+                    </div>
+                    <span class="kpi-icon-box is-mint"><img th:src="@{/assets/icons/kpi-wallet.svg}" alt=""></span>
+                </article>
+            </section>
+
+            <!-- GRÁFICO + AGENDA -->
+            <section class="admin-dash-grid">
+                <div class="admin-card">
+                    <div class="admin-card-head">
+                        <div>
+                            <h2 class="admin-card-title">Novos começos</h2>
+                            <p class="admin-card-sub">Acolhimentos e adoções nos últimos 6 meses</p>
+                        </div>
+                        <div class="chart-legend">
+                            <span><span class="legend-dot" style="background:#4D8C77;"></span>Acolhimentos</span>
+                            <span><span class="legend-dot" style="background:#E2B690;"></span>Adoções</span>
+                        </div>
+                    </div>
+
+                    <div class="bar-chart" aria-label="Gráfico dos últimos 6 meses">
+                        <div class="bar-group"><div class="bar-pair"><div class="bar-col is-acolhimento" style="height:88px;"></div><div class="bar-col is-adocao" style="height:56px;"></div></div><span class="bar-month">Jun</span></div>
+                        <div class="bar-group"><div class="bar-pair"><div class="bar-col is-acolhimento" style="height:112px;"></div><div class="bar-col is-adocao" style="height:76px;"></div></div><span class="bar-month">Jul</span></div>
+                        <div class="bar-group"><div class="bar-pair"><div class="bar-col is-acolhimento" style="height:96px;"></div><div class="bar-col is-adocao" style="height:68px;"></div></div><span class="bar-month">Ago</span></div>
+                        <div class="bar-group"><div class="bar-pair"><div class="bar-col is-acolhimento" style="height:128px;"></div><div class="bar-col is-adocao" style="height:88px;"></div></div><span class="bar-month">Set</span></div>
+                        <div class="bar-group"><div class="bar-pair"><div class="bar-col is-acolhimento" style="height:104px;"></div><div class="bar-col is-adocao" style="height:80px;"></div></div><span class="bar-month">Out</span></div>
+                        <div class="bar-group"><div class="bar-pair"><div class="bar-col is-acolhimento" style="height:120px;"></div><div class="bar-col is-adocao" style="height:96px;"></div></div><span class="bar-month">Nov</span></div>
+                    </div>
+                </div>
+
+                <div class="admin-card" style="display:flex;flex-direction:column;justify-content:space-between;">
+                    <div>
+                        <div class="admin-card-head">
+                            <div>
+                                <h2 class="admin-card-title">Agenda de cuidados</h2>
+                                <p class="admin-card-sub">Quarta-feira, 18 de novembro</p>
+                            </div>
+                            <span style="background:#F3F6F3;color:#687A6F;font-size:10px;font-weight:600;padding:5px 10px;border-radius:7px;">Hoje</span>
+                        </div>
+
+                        <div class="agenda-list">
+                            <div th:each="item : ${agenda}" class="agenda-item">
+                                <span class="agenda-time" th:classappend="${'is-' + item.cor}" th:text="${item.horario}">09:00</span>
+                                <div>
+                                    <p class="agenda-info-title" th:text="${item.titulo}">Vacina múltipla · Luna</p>
+                                    <p class="agenda-info-sub" th:text="${item.local}">Dra. Camila • Consultório 1</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="border-top:1px solid #EDF0ED;padding-top:14px;margin-top:16px;text-align:center;">
+                        <a th:href="@{/admin/saude}" class="admin-card-link">Ver agenda completa →</a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TABELA ANIMAIS + CAMPANHA -->
+            <section class="admin-dash-grid" style="margin-bottom:0;">
+                <div class="admin-card" style="padding:22px 0 12px;">
+                    <div class="admin-card-head" style="padding:0 24px;">
+                        <div>
+                            <h2 class="admin-card-title">Quem está sob nossos cuidados</h2>
+                            <p class="admin-card-sub">Últimos animais acolhidos pela ONG</p>
+                        </div>
+                        <a th:href="@{/admin/animais}" class="admin-card-link">Ver todos →</a>
+                    </div>
+
+                    <div class="admin-table-wrap">
+                        <table class="admin-table">
+                            <thead>
+                            <tr>
+                                <th>Animal</th>
+                                <th>Porte</th>
+                                <th>Situação</th>
+                                <th>Acolhimento</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="a : ${animais}">
+                                <td>
+                                    <p class="table-primary-text" th:text="${a.nome}">Luna</p>
+                                    <p class="table-sub-text" th:text="${'#' + a.codigo + ' · ' + a.especieSexo}">#AN-0128 · Canina, fêmea</p>
+                                </td>
+                                <td th:text="${a.porte}">Médio</td>
+                                <td><span class="status-pill" th:classappend="${a.situacaoTipo}" th:text="${a.situacao}">Disponível</span></td>
+                                <td th:text="${a.data}">16 nov, 2026</td>
+                                <td style="text-align:right;">
+                                    <a th:href="@{/admin/animais/{id}/prontuario(id=${a.id})}" class="admin-card-link">Prontuário</a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <aside class="campaign-admin-card">
+                    <div>
+                        <span class="campaign-tag">CAMPANHA ATIVA</span>
+                        <h2 class="campaign-admin-title">
+                            <span th:text="${campanha.titulo}">Um pote cheio.</span><br>
+                            <span th:text="${campanha.subtitulo}">Muitas vidas felizes.</span>
+                        </h2>
+                        <p class="campaign-admin-desc" th:text="${campanha.descricao}">
+                            Ajude a garantir ração e cuidado para quem está esperando um novo lar.
+                        </p>
+                    </div>
+
+                    <div>
+                        <div class="campaign-money-row">
+                            <div>
+                                <span class="campaign-raised" th:text="${campanha.arrecadado}">R$ 6.800</span>
+                                <span class="campaign-goal" th:text="${'de ' + campanha.meta}">de R$ 10.000</span>
+                            </div>
+                            <span class="campaign-pct" th:text="${campanha.percentual + '%'}">68%</span>
+                        </div>
+                        <div class="progress-track">
+                            <div class="progress-fill" th:style="${'width:' + campanha.percentual + '%'}"></div>
+                        </div>
+                        <div class="campaign-meta-row">
+                            <span th:text="${campanha.apoiadores}">32 apoiadores</span>
+                            <span th:text="${campanha.prazo}">Encerra em 12 dias</span>
+                        </div>
+                        <a th:href="@{/admin/financeiro/campanha}" class="campaign-manage-btn">
+                            Gerenciar campanha ↗
+                        </a>
+                    </div>
+                </aside>
+            </section>
+        </main>
+    </div>
+</div>
+
+<div th:replace="~{fragments/admin-layout :: meuPerfilModal}"></div>
+<div th:replace="~{fragments/admin-layout :: registroSalvo(${salvo})}"></div>
+<script th:src="@{/js/admin.js}"></script>
+</body>
+</html>

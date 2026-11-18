@@ -1,0 +1,334 @@
+/* =========================================================
+   MÓDULO 03: USUÁRIO (MINHA ÁREA, SOLICITAÇÃO E TERMO)
+   ========================================================= */
+
+.user-topbar {
+    background-color: #FFFFFF;
+    border-bottom: 1px solid #EEF2EE;
+    padding: 16px clamp(18px, 3.5vw, 56px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.user-topbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.role-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #EFF5F2;
+    color: var(--text-secondary);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 9px 16px;
+    border-radius: var(--radius-sm);
+}
+
+.user-page-bg {
+    background-color: #F7FAF8;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.user-shell {
+    width: 100%;
+    padding: clamp(24px, 3vw, 40px) clamp(18px, 3.5vw, 56px);
+    flex: 1;
+}
+
+.section-eyebrow {
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+}
+
+.user-page-title {
+    font-size: clamp(26px, 2.2vw, 34px);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+    margin-bottom: 6px;
+}
+
+.user-page-subtitle {
+    font-size: 13.5px;
+    color: var(--text-secondary);
+    margin-bottom: 24px;
+}
+
+/* Abas Minha Área */
+.area-tabs {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+}
+
+.area-tab {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 170px;
+    padding: 11px 24px;
+    border-radius: var(--radius-sm);
+    background-color: #EAF3F0;
+    color: var(--brand-primary);
+    font-size: 12.5px;
+    font-weight: 600;
+    transition: background-color 0.16s ease, color 0.16s ease;
+}
+
+.area-tab:hover {
+    background-color: var(--brand-primary-soft-hover);
+}
+
+.area-tab.is-active {
+    background-color: var(--brand-primary);
+    color: #FFFFFF;
+}
+
+/* Card vazio Minha Área */
+.empty-story-card {
+    background-color: #E9F2EF;
+    border-radius: var(--radius-xl);
+    padding: clamp(26px, 3vw, 44px);
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    align-items: center;
+    gap: clamp(24px, 3vw, 48px);
+}
+
+.empty-story-title {
+    font-size: clamp(22px, 1.8vw, 28px);
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
+    margin-bottom: 12px;
+}
+
+.empty-story-text {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    max-width: 460px;
+    margin-bottom: 24px;
+}
+
+.empty-story-note {
+    font-size: 11.5px;
+    color: var(--text-muted);
+    margin-top: 22px;
+}
+
+.empty-story-media {
+    width: 100%;
+    max-width: 340px;
+    justify-self: end;
+    border-radius: 14px;
+    overflow: hidden;
+    aspect-ratio: 3 / 3.4;
+    background-color: #DCE8E2;
+}
+
+.empty-story-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Lista de solicitações / doações / perfil */
+.area-list-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 18px;
+}
+
+.area-white-card {
+    background-color: #FFFFFF;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    padding: 26px 28px;
+    box-shadow: var(--shadow-card);
+}
+
+.status-badge-text {
+    display: inline-block;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--brand-primary);
+    margin-top: 4px;
+    margin-bottom: 18px;
+}
+
+/* Solicitar Adoção & Termo de Adoção (Grid 2 colunas) */
+.two-col-form-grid {
+    display: grid;
+    grid-template-columns: 1.35fr 0.65fr;
+    gap: clamp(20px, 2.2vw, 30px);
+    align-items: start;
+}
+
+.soft-form-panel {
+    background-color: #F4F7F0;
+    border-radius: var(--radius-lg);
+    padding: clamp(22px, 2.4vw, 32px);
+}
+
+.mint-summary-panel {
+    background-color: #E9F2EF;
+    border-radius: var(--radius-lg);
+    padding: clamp(22px, 2.2vw, 28px);
+}
+
+.summary-animal-photo {
+    width: 100%;
+    height: clamp(180px, 16vw, 230px);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 18px;
+    background-color: #DCE8E2;
+}
+
+.summary-animal-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 20%;
+    display: block;
+}
+
+.check-info-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 8px;
+}
+
+.check-info-list li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--brand-primary);
+}
+
+.form-submit-bar {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin-top: 22px;
+    flex-wrap: wrap;
+}
+
+.form-submit-bar .btn {
+    min-width: 240px;
+    padding: 13px 28px;
+}
+
+.submit-disclaimer {
+    font-size: 11.5px;
+    color: var(--text-muted);
+}
+
+/* Termo de adoção */
+.termo-header-title {
+    font-size: 19px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 20px;
+}
+
+.termo-meta-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 22px;
+}
+
+.termo-meta-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+}
+
+.termo-meta-value {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.termo-clause {
+    margin-bottom: 18px;
+}
+
+.termo-clause h3 {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+}
+
+.termo-clause p {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.55;
+}
+
+.termo-agree-box {
+    background-color: #E9F2EF;
+    border-radius: var(--radius-sm);
+    padding: 14px 16px;
+    margin-top: 22px;
+}
+
+.ordered-steps {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    font-size: 13.5px;
+    color: var(--text-secondary);
+    margin-bottom: 24px;
+}
+
+.ordered-steps li {
+    line-height: 1.5;
+}
+
+.termo-aside-note {
+    font-size: 11.5px;
+    color: var(--text-muted);
+    line-height: 1.55;
+    margin-top: auto;
+}
+
+@media (max-width: 900px) {
+    .empty-story-card,
+    .two-col-form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .empty-story-media {
+        justify-self: start;
+    }
+}

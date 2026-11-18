@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciar campanha · Ampara Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/tokens.css}">
+    <link rel="stylesheet" th:href="@{/css/base.css}">
+    <link rel="stylesheet" th:href="@{/css/modals.css}">
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+</head>
+<body class="admin-body">
+<div class="admin-layout">
+    <div th:replace="~{fragments/admin-layout :: sidebar(${menuAtivo}, ${pendentesCount})}"></div>
+
+    <div class="admin-main-col">
+        <div th:replace="~{fragments/admin-layout :: topbar('Área administrativa')}"></div>
+
+        <main class="admin-content">
+            <div class="admin-page-head">
+                <div>
+                    <p class="admin-eyebrow">FINANCEIRO / CAMPANHA</p>
+                    <h1 class="admin-title">Gerenciar campanha</h1>
+                    <p class="admin-subtitle">Atualize a campanha exibida no site público. Lançamentos financeiros ficam no financeiro.</p>
+                </div>
+            </div>
+
+            <form th:action="@{/admin/financeiro/campanha}" method="post">
+                <div class="admin-dash-grid" style="grid-template-columns: 1.55fr 0.75fr; align-items: start;">
+                    <section class="admin-card">
+                        <div class="modal-form">
+                            <div class="form-group">
+                                <label class="form-label" for="cp-tit">Nome da campanha</label>
+                                <input id="cp-tit" name="titulo" type="text" class="form-control" th:value="${campanha.titulo + ' ' + campanha.subtitulo}" required>
+                                <input type="hidden" name="subtitulo" th:value="${campanha.subtitulo}">
+                            </div>
+                            <div class="form-row-2">
+                                <div class="form-group">
+                                    <label class="form-label" for="cp-meta">Meta de arrecadação</label>
+                                    <input id="cp-meta" name="meta" type="text" class="form-control" th:value="${campanha.meta}" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="cp-prazo">Encerramento</label>
+                                    <input id="cp-prazo" name="prazo" type="text" class="form-control" value="30/11/2026" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="cp-desc">Descrição pública</label>
+                                <input id="cp-desc" name="descricao" type="text" class="form-control" th:value="${campanha.descricao}" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Situação</label>
+                                <input type="text" class="form-control" value="Ativa · Exibir no site" readonly>
+                            </div>
+
+                            <p class="table-primary-text" style="margin-top:8px;">
+                                Arrecadado: <span th:text="${campanha.arrecadado}">R$ 6.800,00</span> · <span th:text="${campanha.apoiadores}">32 apoiadores</span> · <span th:text="${campanha.percentual + '% da meta'}">68% da meta</span>
+                            </p>
+                            <p class="table-sub-text">O valor arrecadado é calculado a partir dos registros. Esta apresentação não processa pagamentos.</p>
+                        </div>
+                    </section>
+
+                    <aside class="campaign-admin-card" style="justify-content: flex-start; gap: 16px;">
+                        <h2 class="admin-card-title" style="font-size:18px;">O que aparece no site</h2>
+                        <p class="admin-subtitle">Nome, descrição, meta, prazo e progresso.</p>
+                        <p class="admin-subtitle">Dados pessoais dos apoiadores e lançamentos internos não são publicados.</p>
+                    </aside>
+                </div>
+
+                <div class="admin-form-actions">
+                    <a th:href="@{/admin/financeiro}" class="admin-btn-soft">Voltar ao financeiro</a>
+                    <button type="submit" class="admin-btn-primary">Salvar campanha</button>
+                </div>
+            </form>
+        </main>
+    </div>
+</div>
+
+<div th:replace="~{fragments/admin-layout :: meuPerfilModal}"></div>
+<script th:src="@{/js/admin.js}"></script>
+</body>
+</html>

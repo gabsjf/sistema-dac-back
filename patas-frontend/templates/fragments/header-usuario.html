@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<!-- Header Ampara (Usado em Minha Área, Análise U06 e Aprovada U07) -->
+<header th:fragment="headerAmpara" class="user-topbar">
+    <a th:href="@{/}" class="auth-brand" aria-label="Ampara - Voltar ao site">
+        <span class="brand-badge" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+                <circle cx="7.5" cy="9.5" r="1.9"/>
+                <circle cx="11.2" cy="6.8" r="1.9"/>
+                <circle cx="15.3" cy="7.6" r="1.8"/>
+                <circle cx="17.8" cy="11.2" r="1.7"/>
+                <path d="M12.2 11.4c-2.6 0-4.9 1.8-5.3 4.3-.3 1.7.9 3.1 2.6 3.1 1 0 1.8-.4 2.7-.4.9 0 1.7.4 2.7.4 1.7 0 2.9-1.4 2.6-3.1-.4-2.5-2.7-4.3-5.3-4.3z"/>
+            </svg>
+        </span>
+        <span class="auth-brand-name">ampara</span>
+    </a>
+
+    <div class="user-topbar-actions">
+        <a th:href="@{/}" class="btn btn-soft">Ver animais</a>
+        <span class="role-pill">PERFIL USUÁRIO</span>
+        <a th:href="@{/}" class="btn btn-soft">Sair da conta</a>
+    </div>
+</header>
+
+<!-- Header Patas do Bem logado (Usado em Solicitar Adoção e Termo de Adoção) -->
+<header th:fragment="headerPatasLogado" class="site-header">
+    <a th:href="@{/}" class="brand-link" aria-label="Patas do Bem - Página inicial">
+        <span class="brand-badge" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+                <circle cx="7.5" cy="9.5" r="1.9"/>
+                <circle cx="11.2" cy="6.8" r="1.9"/>
+                <circle cx="15.3" cy="7.6" r="1.8"/>
+                <circle cx="17.8" cy="11.2" r="1.7"/>
+                <path d="M12.2 11.4c-2.6 0-4.9 1.8-5.3 4.3-.3 1.7.9 3.1 2.6 3.1 1 0 1.8-.4 2.7-.4.9 0 1.7.4 2.7.4 1.7 0 2.9-1.4 2.6-3.1-.4-2.5-2.7-4.3-5.3-4.3z"/>
+            </svg>
+        </span>
+        <span class="brand-text">
+            <span class="brand-title">Patas do Bem</span>
+            <span class="brand-subtitle">PROTEÇÃO ANIMAL</span>
+        </span>
+    </a>
+
+    <div class="header-actions">
+        <button type="button" class="btn btn-header-soft" data-open-modal="modal-doacao">
+            Ajudar com uma doação
+        </button>
+        <span class="role-pill">PERFIL USUÁRIO</span>
+        <a th:href="@{/minha-area}" class="btn btn-header-primary">
+            Minha área
+        </a>
+    </div>
+</header>
+
+</body>
+</html>

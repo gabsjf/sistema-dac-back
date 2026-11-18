@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animais · Ampara Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/tokens.css}">
+    <link rel="stylesheet" th:href="@{/css/base.css}">
+    <link rel="stylesheet" th:href="@{/css/modals.css}">
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+</head>
+<body class="admin-body">
+<div class="admin-layout">
+    <div th:replace="~{fragments/admin-layout :: sidebar(${menuAtivo}, ${pendentesCount})}"></div>
+
+    <div class="admin-main-col">
+        <div th:replace="~{fragments/admin-layout :: topbar('Área administrativa')}"></div>
+
+        <main class="admin-content">
+            <div class="admin-page-head">
+                <div>
+                    <p class="admin-eyebrow">GESTÃO / ANIMAIS</p>
+                    <h1 class="admin-title">Animais acolhidos</h1>
+                    <p class="admin-subtitle">Organize o acolhimento, acompanhe a saúde e prepare novos começos.</p>
+                </div>
+                <div class="admin-head-actions">
+                    <a th:href="@{/admin/animais/novo}" class="admin-btn-primary">Cadastrar animal</a>
+                </div>
+            </div>
+
+            <!-- 4 KPIs -->
+            <section class="kpi-grid">
+                <article class="kpi-card"><div><p class="kpi-value" style="margin-bottom:4px;">128</p><p class="kpi-label" style="margin-bottom:0;">Animais acolhidos</p></div></article>
+                <article class="kpi-card"><div><p class="kpi-value" style="margin-bottom:4px;">86</p><p class="kpi-label" style="margin-bottom:0;">Disponíveis para adoção</p></div></article>
+                <article class="kpi-card"><div><p class="kpi-value" style="margin-bottom:4px;">12</p><p class="kpi-label" style="margin-bottom:0;">Em tratamento</p></div></article>
+                <article class="kpi-card"><div><p class="kpi-value" style="margin-bottom:4px;">30</p><p class="kpi-label" style="margin-bottom:0;">Em adaptação</p></div></article>
+            </section>
+
+            <!-- CARD FILTROS + TABELA -->
+            <section class="admin-card" style="padding: 20px 0 16px;">
+                <div class="filter-bar" style="padding: 0 24px 16px; margin-bottom: 0;">
+                    <div style="flex: 2; min-width: 220px;">
+                        <label class="form-label" for="buscar-animal-nome" style="display:block;margin-bottom:6px;">Buscar por nome ou identificação</label>
+                        <input id="buscar-animal-nome" type="search" class="form-control" style="height:40px;" placeholder="Buscar animal...">
+                    </div>
+                    <div style="min-width: 160px;">
+                        <label class="form-label" for="filter-especie" style="display:block;margin-bottom:6px;">Espécie</label>
+                        <select id="filter-especie" class="filter-select" style="width:100%;">
+                            <option value="todas">Todas</option>
+                            <option value="canin">Canina</option>
+                            <option value="felin">Felina</option>
+                        </select>
+                    </div>
+                    <div style="min-width: 160px;">
+                        <label class="form-label" for="filter-situacao" style="display:block;margin-bottom:6px;">Situação</label>
+                        <select id="filter-situacao" class="filter-select" style="width:100%;">
+                            <option value="todas">Todas</option>
+                            <option value="disponível">Disponível</option>
+                            <option value="em tratamento">Em tratamento</option>
+                            <option value="em adaptação">Em adaptação</option>
+                        </select>
+                    </div>
+                    <div style="align-self: flex-end;">
+                        <button type="button" id="btn-aplicar-filtros" class="admin-btn-soft" style="height:40px;">Aplicar filtros</button>
+                    </div>
+                </div>
+
+                <div class="admin-table-wrap">
+                    <table class="admin-table">
+                        <thead>
+                        <tr>
+                            <th>Animal</th>
+                            <th>Espécie / Porte</th>
+                            <th>Situação</th>
+                            <th>Acolhimento</th>
+                            <th>Responsável</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="a : ${animais}"
+                            data-animal-row
+                            th:attr="data-nome=${a.nome + ' #' + a.codigo}, data-especie=${a.especieSexo}, data-situacao=${a.situacao}">
+                            <td>
+                                <p class="table-primary-text" th:text="${a.nome}">Luna</p>
+                                <p class="table-sub-text" th:text="${'#' + a.codigo}">#AN-0128</p>
+                            </td>
+                            <td th:text="${(a.especieSexo.startsWith('Canin') ? 'Canina' : 'Felina') + ' · ' + a.porte}">Canina · Médio</td>
+                            <td><span class="status-pill" th:classappend="${a.situacaoTipo}" th:text="${a.situacao}">Disponível</span></td>
+                            <td th:text="${a.data}">16 nov, 2026</td>
+                            <td th:text="${a.responsavel}">Mariana Costa</td>
+                            <td style="text-align:right; white-space:nowrap;">
+                                <a th:if="${a.situacao == 'Disponível'}" th:href="@{/animais/{id}(id=${a.id})}" class="admin-card-link" style="margin-right:10px;">Ver perfil</a>
+                                <a th:if="${a.situacao != 'Disponível'}" th:href="@{/admin/animais/{id}/prontuario(id=${a.id})}" class="admin-card-link" style="margin-right:10px;">Cuidados</a>
+                                <a th:href="@{/admin/animais/{id}/editar(id=${a.id})}" class="admin-card-link">Editar</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div style="display:flex;justify-content:space-between;padding:14px 24px 0;font-size:11.5px;color:#7B8883;">
+                    <span>Mostrando 6 de 128 animais</span>
+                    <span>Página 1 de 22</span>
+                </div>
+            </section>
+
+            <p class="admin-subtitle" style="margin-top:16px;font-size:11.5px;">
+                Cuidado é continuidade; mantenha os registros sempre atualizados.
+            </p>
+        </main>
+    </div>
+</div>
+
+<div th:replace="~{fragments/admin-layout :: meuPerfilModal}"></div>
+<div th:replace="~{fragments/admin-layout :: registroSalvo(${salvo})}"></div>
+<script th:src="@{/js/admin.js}"></script>
+</body>
+</html>
