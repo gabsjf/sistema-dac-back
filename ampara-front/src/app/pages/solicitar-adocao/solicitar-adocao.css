@@ -1,0 +1,179 @@
+
+:host {
+  display: block;
+  min-height: 100vh;
+}
+
+.solicitacao-main {
+  display: flex;
+  justify-content: center;
+  padding: 55px 20px 80px;
+}
+
+.solicitacao-card {
+  width: 100%;
+  max-width: 680px;
+  padding: 36px;
+  background: #ffffff;
+  border: 1px solid #e7e9e7;
+  border-radius: 20px;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.06);
+}
+
+.solicitacao-header {
+  margin-bottom: 28px;
+}
+
+.solicitacao-header h1 {
+  margin: 10px 0;
+  color: #253b32;
+  font-size: 30px;
+  font-weight: 700;
+}
+
+.solicitacao-header p {
+  color: #64716a;
+  line-height: 1.6;
+}
+
+.animal-escolhido {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 28px;
+  padding: 20px;
+  background: #f1f6f2;
+  border: 1px solid #e0e9e1;
+  border-radius: 12px;
+}
+
+.animal-escolhido h2 {
+  margin: 0 0 6px;
+  color: #253b32;
+  font-size: 20px;
+}
+
+.animal-escolhido p {
+  margin: 0;
+  color: #64716a;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.animal-escolhido-status {
+  flex-shrink: 0;
+  padding: 6px 10px;
+  border-radius: 20px;
+  background: #dcefe1;
+  color: #276a42;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.solicitacao-campo {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 22px;
+}
+
+.solicitacao-campo label {
+  color: #34483d;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.solicitacao-campo input,
+.solicitacao-campo textarea {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 13px 15px;
+  border: 1px solid #d7ded8;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #253b32;
+  font-family: inherit;
+  font-size: 15px;
+  resize: vertical;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.solicitacao-campo input:focus,
+.solicitacao-campo textarea:focus {
+  outline: none;
+  border-color: #548b70;
+  box-shadow: 0 0 0 3px rgba(84, 139, 112, 0.12);
+}
+
+.solicitacao-campo input::placeholder,
+.solicitacao-campo textarea::placeholder {
+  color: #9ba69e;
+}
+
+.termos-aceite {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 10px 0 22px;
+  color: #64716a;
+  font-size: 13px;
+  line-height: 1.6;
+  cursor: pointer;
+}
+
+.termos-aceite input {
+  flex-shrink: 0;
+  width: 17px;
+  height: 17px;
+  margin-top: 2px;
+  accent-color: #357a53;
+}
+
+.solicitacao-card button[type="submit"] {
+  width: 100%;
+  padding: 14px;
+  cursor: pointer;
+}
+
+.solicitacao-card button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.solicitacao-erro {
+  margin: 14px 0;
+  padding: 12px;
+  border-radius: 8px;
+  background: #fff0f0;
+  color: #a52b2b;
+  font-size: 14px;
+}
+
+.solicitacao-aviso {
+  margin-top: 22px;
+  color: #849087;
+  font-size: 13px;
+  line-height: 1.6;
+  text-align: center;
+}
+
+@media (max-width: 600px) {
+  .solicitacao-main {
+    padding: 25px 12px 50px;
+  }
+
+  .solicitacao-card {
+    padding: 24px 20px;
+    border-radius: 16px;
+  }
+
+  .solicitacao-header h1 {
+    font-size: 26px;
+  }
+
+  .animal-escolhido {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}

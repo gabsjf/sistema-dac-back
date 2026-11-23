@@ -1,0 +1,137 @@
+
+:host {
+  display: block;
+  min-height: 100vh;
+}
+
+.cadastro-main {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 60px 20px 90px;
+}
+
+.cadastro-card {
+  width: 100%;
+  max-width: 480px;
+  padding: 36px;
+  background: #ffffff;
+  border: 1px solid #e7e9e7;
+  border-radius: 20px;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.06);
+}
+
+.cadastro-header {
+  margin-bottom: 28px;
+}
+
+.cadastro-header h1 {
+  margin: 10px 0 12px;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #253b32;
+}
+
+.cadastro-header p {
+  line-height: 1.6;
+  color: #64716a;
+}
+
+.cadastro-campo {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.cadastro-campo label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #34483d;
+}
+
+.cadastro-campo input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 13px 15px;
+  border: 1px solid #d7ded8;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #253b32;
+  font-family: inherit;
+  font-size: 15px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.cadastro-campo input:focus {
+  outline: none;
+  border-color: #548b70;
+  box-shadow: 0 0 0 3px rgba(84, 139, 112, 0.12);
+}
+
+.cadastro-campo input::placeholder {
+  color: #9ba69e;
+}
+
+.cadastro-card button[type="submit"] {
+  width: 100%;
+  margin-top: 8px;
+  padding: 14px;
+  cursor: pointer;
+}
+
+.cadastro-card button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.cadastro-erro {
+  margin: 12px 0;
+  padding: 12px;
+  border-radius: 8px;
+  background: #fff0f0;
+  color: #a52b2b;
+  font-size: 14px;
+}
+
+.cadastro-sucesso {
+  margin: 12px 0;
+  padding: 12px;
+  border-radius: 8px;
+  background: #eaf6ee;
+  color: #276a42;
+  font-size: 14px;
+}
+
+.cadastro-login {
+  margin-top: 24px;
+  text-align: center;
+  color: #64716a;
+  font-size: 14px;
+}
+
+.cadastro-login a {
+  color: #357a53;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.cadastro-login a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 600px) {
+  .cadastro-main {
+    padding: 28px 12px 60px;
+  }
+
+  .cadastro-card {
+    padding: 24px 20px;
+    border-radius: 16px;
+  }
+
+  .cadastro-header h1 {
+    font-size: 26px;
+  }
+}

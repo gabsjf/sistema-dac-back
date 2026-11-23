@@ -1,0 +1,129 @@
+
+<div class="page-shell">
+
+  <!-- CABEÇALHO -->
+  <header class="site-header">
+    <a routerLink="/" class="brand-link" aria-label="Patas do Bem - Página inicial">
+      <span class="brand-badge" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <circle cx="7.5" cy="9.5" r="1.9"/>
+          <circle cx="11.2" cy="6.8" r="1.9"/>
+          <circle cx="15.3" cy="7.6" r="1.8"/>
+          <circle cx="17.8" cy="11.2" r="1.7"/>
+          <path d="M12.2 11.4c-2.6 0-4.9 1.8-5.3 4.3-.3 1.7.9 3.1 2.6 3.1 1 0 1.8-.4 2.7-.4.9 0 1.7.4 2.7.4 1.7 0 2.9-1.4 2.6-3.1-.4-2.5-2.7-4.3-4.3z"/>
+        </svg>
+      </span>
+
+      <span class="brand-text">
+        <span class="brand-title">Patas do Bem</span>
+        <span class="brand-subtitle">PROTEÇÃO ANIMAL</span>
+      </span>
+    </a>
+
+    <div class="header-actions">
+      <a routerLink="/" class="btn btn-soft">Início</a>
+      <a routerLink="/entrar" class="btn btn-header-primary">Entrar</a>
+    </div>
+  </header>
+
+  <main class="cadastro-main">
+
+    <section class="cadastro-card" aria-labelledby="cadastro-titulo">
+
+      <div class="cadastro-header">
+        <p class="hero-eyebrow">FAÇA PARTE DESSA HISTÓRIA</p>
+
+        <h1 id="cadastro-titulo">Crie sua conta</h1>
+
+        <p>
+          Cadastre-se para acompanhar os animais e dar o primeiro
+          passo para uma adoção responsável.
+        </p>
+      </div>
+
+      <form #formCadastro="ngForm" (ngSubmit)="cadastrar()">
+
+        <div class="cadastro-campo">
+          <label for="nomeCompleto">Nome completo</label>
+          <input
+            id="nomeCompleto"
+            name="nomeCompleto"
+            type="text"
+            [(ngModel)]="nomeCompleto"
+            placeholder="Digite seu nome completo"
+            autocomplete="name"
+            required
+          >
+        </div>
+
+        <div class="cadastro-campo">
+          <label for="email">E-mail</label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            [(ngModel)]="email"
+            placeholder="exemplo@email.com"
+            autocomplete="email"
+            required
+            email
+          >
+        </div>
+
+        <div class="cadastro-campo">
+          <label for="telefone">Telefone</label>
+          <input
+            id="telefone"
+            name="telefone"
+            type="tel"
+            [(ngModel)]="telefone"
+            placeholder="(67) 99999-9999"
+            autocomplete="tel"
+            required
+          >
+        </div>
+
+        <div class="cadastro-campo">
+          <label for="senha">Senha</label>
+          <input
+            id="senha"
+            name="senha"
+            type="password"
+            [(ngModel)]="senha"
+            placeholder="Crie uma senha"
+            autocomplete="new-password"
+            required
+          >
+        </div>
+
+        @if (erro()) {
+          <p class="cadastro-erro" role="alert">
+            {{ erro() }}
+          </p>
+        }
+
+        @if (sucesso()) {
+          <p class="cadastro-sucesso" role="status">
+            {{ sucesso() }}
+          </p>
+        }
+
+        <button
+          type="submit"
+          class="btn btn-primary btn-full"
+          [disabled]="formCadastro.invalid || enviando()"
+        >
+          {{ enviando() ? 'Cadastrando...' : 'Criar minha conta' }}
+        </button>
+
+      </form>
+
+      <p class="cadastro-login">
+        Já possui uma conta?
+        <a routerLink="/entrar">Entrar</a>
+      </p>
+
+    </section>
+
+  </main>
+</div>
