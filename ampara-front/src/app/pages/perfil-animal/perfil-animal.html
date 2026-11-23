@@ -1,0 +1,144 @@
+
+<div class="page-shell">
+
+  <!-- CABEÇALHO -->
+  <header class="site-header">
+    <a routerLink="/" class="brand-link" aria-label="Patas do Bem - Página inicial">
+      <span class="brand-badge" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <circle cx="7.5" cy="9.5" r="1.9"/>
+          <circle cx="11.2" cy="6.8" r="1.9"/>
+          <circle cx="15.3" cy="7.6" r="1.8"/>
+          <circle cx="17.8" cy="11.2" r="1.7"/>
+          <path d="M12.2 11.4c-2.6 0-4.9 1.8-5.3 4.3-.3 1.7.9 3.1 2.6 3.1 1 0 1.8-.4 2.7-.4.9 0 1.7.4 2.7.4 1.7 0 2.9-1.4 2.6-3.1-.4-2.5-2.7-4.3-4.3-4.3z"/>
+        </svg>
+      </span>
+
+      <span class="brand-text">
+        <span class="brand-title">Patas do Bem</span>
+        <span class="brand-subtitle">PROTEÇÃO ANIMAL</span>
+      </span>
+    </a>
+
+    <div class="header-actions">
+      <a routerLink="/" class="btn btn-soft">Voltar aos animais</a>
+    </div>
+  </header>
+
+  <main>
+
+    @if (carregando()) {
+      <p>Carregando informações do animal...</p>
+    } @else if (erro()) {
+      <section class="profile-info-card">
+        <p role="alert">{{ erro() }}</p>
+        <a routerLink="/" class="btn btn-primary">Voltar aos animais</a>
+      </section>
+    } @else if (animal(); as pet) {
+
+      <!-- NAVEGAÇÃO -->
+      <div class="back-nav">
+        <a routerLink="/" class="back-link">← Voltar aos animais</a>
+      </div>
+
+      <!-- PERFIL PRINCIPAL -->
+      <section class="profile-main-grid">
+
+        <div class="profile-photo-box">
+          <img
+            [src]="imagemAnimal(pet)"
+            [alt]="pet.name + ' disponível para adoção'"
+          >
+        </div>
+
+        <div class="profile-info-card">
+
+          <div>
+            <span class="profile-status-pill">
+              {{ pet.status === 'Available' ? 'Disponível para adoção' : pet.status }}
+            </span>
+
+            <h1 class="profile-name">{{ pet.name }}</h1>
+
+            <p class="profile-meta">
+              {{ especie(pet) }} ·
+              {{ sexo(pet) }} ·
+              {{ idade(pet) }} ·
+              Porte {{ porte(pet).toLowerCase() }}
+            </p>
+
+            <p class="profile-description">
+              {{ pet.description }}
+            </p>
+          </div>
+
+          <div>
+            <p class="profile-location">
+              ONG Patas do Bem
+            </p>
+
+            @if (pet.status === 'Available') {
+              <a
+                [routerLink]="['/animais', pet.id, 'adotar']"
+                class="btn btn-primary btn-full"
+              >
+                Solicitar adoção
+              </a>
+            } @else {
+              <button class="btn btn-soft btn-full" disabled>
+                Indisponível para adoção
+              </button>
+            }
+          </div>
+
+        </div>
+      </section>
+
+      <!-- INFORMAÇÕES DE CUIDADO -->
+      <section class="profile-bottom-grid">
+
+        <div class="care-card">
+          <h2 class="info-card-title">
+            Cuidado antes de cada novo lar.
+          </h2>
+
+          <ul class="care-list">
+            <li>
+              <span class="care-check">✓</span>
+              {{ pet.isVaccinated ? 'Vacinação realizada' : 'Vacinação pendente' }}
+            </li>
+
+            <li>
+              <span class="care-check">✓</span>
+              {{ pet.isNeutered ? 'Castração realizada' : 'Castração pendente' }}
+            </li>
+
+            <li>
+              <span class="care-check">✓</span>
+              {{ pet.isDewormed ? 'Vermifugação realizada' : 'Vermifugação pendente' }}
+            </li>
+          </ul>
+        </div>
+
+        <div class="commitment-card">
+          <h2 class="info-card-title">
+            Um compromisso para a vida.
+          </h2>
+
+          <div class="commitment-text">
+            <p>
+              É preciso ter 18 anos ou mais e oferecer um ambiente seguro.
+            </p>
+
+            <p>
+              A equipe analisa as informações e conversa com a família.
+              O envio do formulário não garante a adoção.
+            </p>
+          </div>
+        </div>
+
+      </section>
+    }
+
+  </main>
+</div>

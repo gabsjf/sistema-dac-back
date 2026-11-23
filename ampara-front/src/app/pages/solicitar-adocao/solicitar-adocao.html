@@ -1,0 +1,170 @@
+
+<div class="page-shell">
+
+  <!-- CABEÇALHO -->
+  <header class="site-header">
+    <a routerLink="/" class="brand-link" aria-label="Patas do Bem - Página inicial">
+      <span class="brand-badge" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <circle cx="7.5" cy="9.5" r="1.9"/>
+          <circle cx="11.2" cy="6.8" r="1.9"/>
+          <circle cx="15.3" cy="7.6" r="1.8"/>
+          <circle cx="17.8" cy="11.2" r="1.7"/>
+          <path d="M12.2 11.4c-2.6 0-4.9 1.8-5.3 4.3-.3 1.7.9 3.1 2.6 3.1 1 0 1.8-.4 2.7-.4.9 0 1.7.4 2.7.4 1.7 0 2.9-1.4 2.6-3.1-.4-2.5-2.7-4.3-4.3-4.3z"/>
+        </svg>
+      </span>
+
+      <span class="brand-text">
+        <span class="brand-title">Patas do Bem</span>
+        <span class="brand-subtitle">PROTEÇÃO ANIMAL</span>
+      </span>
+    </a>
+
+    <div class="header-actions">
+      <a routerLink="/" class="btn btn-soft">Voltar ao início</a>
+    </div>
+  </header>
+
+  <main class="solicitacao-main">
+
+    @if (carregando()) {
+      <p>Carregando informações do animal...</p>
+    } @else if (erro() && !animal()) {
+      <section class="solicitacao-card">
+        <p class="solicitacao-erro" role="alert">
+          {{ erro() }}
+        </p>
+
+        <a routerLink="/" class="btn btn-primary btn-full">
+          Voltar aos animais
+        </a>
+      </section>
+    } @else if (animal(); as pet) {
+
+      <section class="solicitacao-card">
+
+        <div class="solicitacao-header">
+          <p class="hero-eyebrow">ADOÇÃO RESPONSÁVEL</p>
+
+          <h1>Solicitar adoção</h1>
+
+          <p>
+            Preencha as informações abaixo para iniciar
+            o processo de adoção.
+          </p>
+        </div>
+
+        <!-- ANIMAL ESCOLHIDO -->
+        <div class="animal-escolhido">
+          <div class="animal-escolhido-info">
+            <h2>{{ pet.name }}</h2>
+            <p>{{ pet.description }}</p>
+          </div>
+
+          <span class="animal-escolhido-status">Disponível</span>
+        </div>
+
+        <!-- FORMULÁRIO -->
+        <form #formAdocao="ngForm" (ngSubmit)="enviarSolicitacao()">
+
+          <!-- TELEFONE -->
+          <div class="solicitacao-campo">
+            <label for="telefone">Telefone para contato</label>
+
+            <input
+              id="telefone"
+              name="telefone"
+              type="tel"
+              [(ngModel)]="telefone"
+              placeholder="(67) 99999-9999"
+              autocomplete="tel"
+              required
+            >
+          </div>
+
+          <!-- MORADIA -->
+          <div class="solicitacao-campo">
+            <label for="moradia">Como é sua moradia?</label>
+
+            <textarea
+              id="moradia"
+              name="moradia"
+              [(ngModel)]="moradia"
+              placeholder="Conte sobre sua casa, espaço disponível e ambiente..."
+              rows="4"
+              required
+            ></textarea>
+          </div>
+
+          <!-- ROTINA -->
+          <div class="solicitacao-campo">
+            <label for="rotina">Como é sua rotina?</label>
+
+            <textarea
+              id="rotina"
+              name="rotina"
+              [(ngModel)]="rotina"
+              placeholder="Conte sobre seus horários, trabalho e tempo disponível para cuidar do animal..."
+              rows="4"
+              required
+            ></textarea>
+          </div>
+
+          <!-- MOTIVO DA ADOÇÃO -->
+          <div class="solicitacao-campo">
+            <label for="mensagem">Por que deseja adotar?</label>
+
+            <textarea
+              id="mensagem"
+              name="mensagem"
+              [(ngModel)]="mensagem"
+              placeholder="Conte um pouco sobre seu interesse em adotar..."
+              rows="4"
+              required
+            ></textarea>
+          </div>
+
+          <!-- ACEITE DOS TERMOS -->
+          <label class="termos-aceite">
+            <input
+              type="checkbox"
+              name="aceitaTermos"
+              [(ngModel)]="aceitaTermos"
+              required
+            >
+
+            <span>
+              Declaro que as informações fornecidas são verdadeiras
+              e que estou ciente de que o envio da solicitação
+              não garante a adoção.
+            </span>
+          </label>
+
+          <!-- MENSAGEM DE ERRO -->
+          @if (erro()) {
+            <p class="solicitacao-erro" role="alert">
+              {{ erro() }}
+            </p>
+          }
+
+          <!-- BOTÃO DE ENVIO -->
+          <button
+            type="submit"
+            class="btn btn-primary btn-full"
+            [disabled]="formAdocao.invalid || enviando()"
+          >
+            {{ enviando() ? 'Enviando solicitação...' : 'Enviar solicitação' }}
+          </button>
+
+        </form>
+
+        <p class="solicitacao-aviso">
+          Nossa equipe analisará as informações e dará continuidade
+          ao processo de adoção.
+        </p>
+
+      </section>
+    }
+
+  </main>
+</div>

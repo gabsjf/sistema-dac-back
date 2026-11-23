@@ -1,0 +1,165 @@
+
+<div class="page-shell">
+
+  <!-- CABEÇALHO -->
+  <header class="site-header">
+    <a routerLink="/" class="brand-link" aria-label="Patas do Bem - Página inicial">
+      <span class="brand-badge" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <circle cx="7.5" cy="9.5" r="1.9"/>
+          <circle cx="11.2" cy="6.8" r="1.9"/>
+          <circle cx="15.3" cy="7.6" r="1.8"/>
+          <circle cx="17.8" cy="11.2" r="1.7"/>
+          <path d="M12.2 11.4c-2.6 0-4.9 1.8-5.3 4.3-.3 1.7.9 3.1 2.6 3.1 1 0 1.8-.4 2.7-.4.9 0 1.7.4 2.7.4 1.7 0 2.9-1.4 2.6-3.1-.4-2.5-2.7-4.3-4.3-4.3z"/>
+        </svg>
+      </span>
+
+      <span class="brand-text">
+        <span class="brand-title">Patas do Bem</span>
+        <span class="brand-subtitle">PROTEÇÃO ANIMAL</span>
+      </span>
+    </a>
+
+    <div class="header-actions">
+
+      @if (usuarioLogado(); as usuario) {
+        <span class="usuario-boas-vindas">
+          Olá, {{ usuario.fullName }}
+        </span>
+
+        <a
+          routerLink="/minhas-solicitacoes"
+          class="btn btn-soft"
+        >
+          Minhas solicitações
+        </a>
+
+        <button
+          type="button"
+          class="btn btn-soft"
+          (click)="sair()"
+        >
+          Sair
+        </button>
+      } @else {
+        <a routerLink="/registrar" class="btn btn-soft">
+          Registrar-se
+        </a>
+
+        <a routerLink="/entrar" class="btn btn-header-primary">
+          Entrar
+        </a>
+      }
+
+    </div>
+  </header>
+
+  <main>
+
+    <!-- BANNER PRINCIPAL -->
+    <section class="hero-card" aria-labelledby="hero-title">
+      <div class="hero-content">
+        <p class="hero-eyebrow">ONG PATAS DO BEM</p>
+
+        <h1 id="hero-title" class="hero-title">
+          Um lar muda tudo.<br>
+          O próximo pode ser o seu.
+        </h1>
+
+        <p class="hero-description">
+          Conheça nossos animais e faça parte de uma rede de adoção
+          responsável, cuidado e novos começos.
+        </p>
+
+        <div class="hero-actions">
+          <a href="#animais" class="btn btn-primary">
+            Quero adotar
+          </a>
+        </div>
+      </div>
+
+      <div class="hero-media">
+        <img
+          src="/assets/images/Luna.svg"
+          alt="Luna, cachorra aguardando adoção"
+        >
+      </div>
+    </section>
+
+    <!-- CATÁLOGO DE ANIMAIS -->
+    <section id="animais" class="catalog-section">
+
+      <div class="catalog-header">
+        <h2 class="catalog-title">
+          Encontre um amigo para a vida.
+        </h2>
+
+        <p class="catalog-subtitle">
+          Adoção é um compromisso com carinho, segurança e cuidado.
+        </p>
+      </div>
+
+      @if (carregando()) {
+        <p>Carregando animais disponíveis...</p>
+      } @else if (erro()) {
+        <p role="alert">{{ erro() }}</p>
+      } @else {
+
+        <div class="animals-grid">
+
+          @for (animal of animais(); track animal.id) {
+            <article class="animal-card">
+
+              <div class="animal-card-media">
+                <img
+                  [src]="imagemAnimal(animal)"
+                  [alt]="'Foto de ' + animal.name"
+                >
+              </div>
+
+              <div class="animal-card-body">
+
+                <div class="animal-card-top">
+                  <h3 class="animal-name">
+                    {{ animal.name }}
+                  </h3>
+
+                  <span class="animal-status">
+                    {{ animal.status === 'Available' ? 'Disponível' : animal.status }}
+                  </span>
+                </div>
+
+                <p class="animal-meta">
+                  {{ idade(animal) }} ·
+                  {{ sexo(animal) }} ·
+                  {{ porte(animal) }}
+                </p>
+
+                <p class="animal-meta">
+                  {{ especie(animal) }}
+                </p>
+
+                <p>{{ animal.description }}</p>
+
+                <a
+                  [routerLink]="['/animais', animal.id]"
+                  class="btn btn-primary"
+                >
+                  Conhecer {{ animal.name }}
+                </a>
+
+              </div>
+
+            </article>
+          } @empty {
+            <p>Nenhum animal encontrado no momento.</p>
+          }
+
+        </div>
+      }
+
+    </section>
+
+  </main>
+
+</div>

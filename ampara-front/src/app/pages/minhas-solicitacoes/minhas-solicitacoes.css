@@ -1,0 +1,159 @@
+
+.requests-page {
+  max-width: 1100px;
+  margin: 45px auto;
+  padding: 0 24px 60px;
+}
+
+.requests-heading {
+  margin-bottom: 32px;
+}
+
+.eyebrow {
+  color: #247765;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+}
+
+.requests-heading h1 {
+  font-size: 32px;
+  color: #173b34;
+  margin: 10px 0;
+}
+
+.requests-heading > p:last-child {
+  color: #687b75;
+}
+
+.requests-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.request-card {
+  display: flex;
+  gap: 24px;
+  padding: 20px;
+  border: 1px solid #e1eae5;
+  border-radius: 16px;
+  background: white;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+}
+
+.request-image {
+  width: 190px;
+  min-width: 190px;
+  height: 155px;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.request-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.request-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.request-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 15px;
+}
+
+.request-top h2 {
+  margin: 0 0 8px;
+  color: #173b34;
+  font-size: 22px;
+}
+
+.request-date,
+.decision-date {
+  color: #7b8983;
+  font-size: 13px;
+}
+
+.status-badge {
+  padding: 8px 14px;
+  border-radius: 30px;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.status-badge.pending {
+  color: #956300;
+  background: #fff1c9;
+}
+
+.status-badge.approved {
+  color: #18734e;
+  background: #dff5e9;
+}
+
+.status-badge.rejected {
+  color: #a53232;
+  background: #fde5e5;
+}
+
+.request-description {
+  margin-top: 22px;
+  color: #53665e;
+  line-height: 1.6;
+}
+
+.rejection-reason {
+  color: #a53232;
+  font-size: 14px;
+}
+
+.empty-state {
+  padding: 55px 20px;
+  text-align: center;
+  background: #f5f8f4;
+  border-radius: 16px;
+}
+
+.empty-state h2 {
+  color: #173b34;
+}
+
+.empty-state p {
+  color: #687b75;
+}
+
+.empty-icon {
+  font-size: 42px;
+  margin-bottom: 12px;
+}
+
+@media (max-width: 650px) {
+  .requests-page {
+    margin-top: 25px;
+    padding: 0 15px 40px;
+  }
+
+  .requests-heading h1 {
+    font-size: 26px;
+  }
+
+  .request-card {
+    flex-direction: column;
+  }
+
+  .request-image {
+    width: 100%;
+    height: 200px;
+  }
+
+  .request-top {
+    flex-direction: column;
+  }
+}

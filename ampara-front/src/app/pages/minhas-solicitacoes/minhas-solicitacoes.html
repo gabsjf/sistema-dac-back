@@ -1,0 +1,147 @@
+
+<div class="page-shell">
+
+  <!-- CABEÇALHO -->
+  <header class="site-header">
+    <a routerLink="/" class="brand-link">
+      <span class="brand-badge">🐾</span>
+      <span class="brand-text">
+        <span class="brand-title">Patas do Bem</span>
+        <span class="brand-subtitle">PROTEÇÃO ANIMAL</span>
+      </span>
+    </a>
+
+    <div class="header-actions">
+      <a routerLink="/" class="btn btn-soft">
+        Voltar aos animais
+      </a>
+    </div>
+  </header>
+
+  <main class="requests-page">
+
+    <!-- TÍTULO -->
+    <section class="requests-heading">
+      <p class="eyebrow">ÁREA DO ADOTANTE</p>
+      <h1>Minhas solicitações</h1>
+      <p>
+        Acompanhe o andamento dos seus pedidos de adoção.
+      </p>
+    </section>
+
+    <!-- CARREGAMENTO -->
+    @if (carregando()) {
+      <div class="empty-state">
+        <p>Carregando suas solicitações...</p>
+      </div>
+    }
+
+    <!-- ERRO -->
+    @else if (erro()) {
+      <div class="empty-state">
+        <p role="alert">{{ erro() }}</p>
+
+        <button
+          class="btn btn-primary"
+          (click)="carregarSolicitacoes()"
+        >
+          Tentar novamente
+        </button>
+      </div>
+    }
+
+    <!-- LISTA -->
+    @else if (solicitacoes().length > 0) {
+
+      <div class="requests-list">
+
+        @for (solicitacao of solicitacoes(); track solicitacao.id) {
+
+          <article class="request-card">
+
+            <div class="request-image">
+              <img
+                [src]="imagemAnimal(solicitacao.animal)"
+                [alt]="'Foto de ' + solicitacao.animal.name"
+              >
+            </div>
+
+            <div class="request-content">
+
+              <div class="request-top">
+                <div>
+                  <h2>{{ solicitacao.animal.name }}</h2>
+
+                  <p class="request-date">
+                    Solicitação enviada em
+                    {{ dataFormatada(solicitacao.createdAt) }}
+                  </p>
+                </div>
+
+                <span
+                  class="status-badge"
+                  [class.pending]="solicitacao.status === 'Pending'"
+                  [class.approved]="solicitacao.status === 'Approved'"
+                  [class.rejected]="solicitacao.status === 'Rejected'"
+                >
+                  {{ statusTexto(solicitacao.status) }}
+                </span>
+              </div>
+
+              <p class="request-description">
+                @if (solicitacao.status === 'Pending') {
+                  Sua solicitação está aguardando análise pela equipe.
+                } @else if (solicitacao.status === 'Approved') {
+                  Sua solicitação foi aprovada pela equipe!
+                } @else if (solicitacao.status === 'Rejected') {
+                  Sua solicitação não foi aprovada.
+                } @else {
+                  Consulte a equipe para obter mais informações.
+                }
+              </p>
+
+              @if (solicitacao.decidedAt) {
+                <p class="decision-date">
+                  Decisão em:
+                  {{ dataFormatada(solicitacao.decidedAt) }}
+                </p>
+              }
+
+              @if (solicitacao.rejectionReason) {
+                <p class="rejection-reason">
+                  Motivo: {{ solicitacao.rejectionReason }}
+                </p>
+              }
+
+            </div>
+
+          </article>
+
+        }
+
+      </div>
+
+    }
+
+    <!-- NENHUMA SOLICITAÇÃO -->
+    @else {
+
+      <section class="empty-state">
+        <div class="empty-icon">🐾</div>
+
+        <h2>Você ainda não tem solicitações.</h2>
+
+        <p>
+          Que tal conhecer nossos animais e encontrar um novo amigo?
+        </p>
+
+        <a routerLink="/" class="btn btn-primary">
+          Conhecer animais
+        </a>
+      </section>
+
+    }
+
+  </main>
+
+</div>
