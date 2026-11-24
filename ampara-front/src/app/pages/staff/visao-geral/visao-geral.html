@@ -1,0 +1,237 @@
+<main class="admin-content">
+
+  <section class="admin-page-head">
+    <div>
+      <p class="admin-eyebrow">Cuidar começa por aqui</p>
+      <h1 class="admin-title">Visão geral da ONG</h1>
+      <p class="admin-subtitle">Acompanhe sua ONG e faça a diferença, todos os dias.</p>
+    </div>
+
+    <div class="admin-head-actions">
+      <a routerLink="/admin/animais" [queryParams]="{ novo: 1 }" class="admin-btn-primary">
+        + Cadastrar animal
+      </a>
+    </div>
+  </section>
+
+  @if (erroPainel()) {
+    <div class="admin-alert" role="alert">
+      <span>Não foi possível carregar os indicadores. Confira se a API está rodando.</span>
+      <button type="button" (click)="carregar()">Tentar de novo</button>
+    </div>
+  }
+
+  <!-- INDICADORES -->
+  <section class="kpi-grid" aria-label="Indicadores">
+
+    <article class="kpi-card">
+      <div>
+        <p class="kpi-label">Animais acolhidos</p>
+        <p class="kpi-value">{{ painel()?.totalAnimals ?? '–' }}</p>
+
+        @if (mesAtual(); as mes) {
+          <p class="kpi-delta is-green">
+            {{ mes.intakes === 0 ? 'Nenhum acolhimento neste mês' : '+' + mes.intakes + ' neste mês' }}
+          </p>
+        }
+      </div>
+
+      <span class="kpi-icon-box is-mint">
+        <img src="/assets/icons/kpi-paw.svg" alt="">
+      </span>
+    </article>
+
+    <article class="kpi-card">
+      <div>
+        <p class="kpi-label">Adoções realizadas</p>
+        <p class="kpi-value">{{ painel()?.adopted ?? '–' }}</p>
+
+        @if (mesAtual(); as mes) {
+          <p class="kpi-delta is-amber">
+            {{ mes.adoptions === 0 ? 'Nenhuma adoção neste mês' : mes.adoptions + ' neste mês' }}
+          </p>
+        }
+      </div>
+
+      <span class="kpi-icon-box is-amber">
+        <img src="/assets/icons/kpi-heart.svg" alt="">
+      </span>
+    </article>
+
+    <article class="kpi-card">
+      <div>
+        <p class="kpi-label">Em tratamento</p>
+        <p class="kpi-value">{{ painel()?.inTreatment ?? '–' }}</p>
+
+        @if (painel(); as p) {
+          <p class="kpi-delta is-violet">{{ p.available }} disponíveis para adoção</p>
+        }
+      </div>
+
+      <span class="kpi-icon-box is-violet">
+        <img src="/assets/icons/kpi-care.svg" alt="">
+      </span>
+    </article>
+
+    <article class="kpi-card is-dev">
+      <div>
+        <p class="kpi-label">Doações no mês</p>
+        <p class="kpi-value">–</p>
+        <span class="dev-pill">Em desenvolvimento</span>
+      </div>
+
+      <span class="kpi-icon-box is-mint">
+        <img src="/assets/icons/kpi-wallet.svg" alt="">
+      </span>
+    </article>
+
+  </section>
+
+  <!-- GRÁFICO + AGENDA -->
+  <section class="admin-dash-grid">
+
+    <article class="admin-card">
+      <header class="admin-card-head">
+        <div>
+          <h2 class="admin-card-title">Novos começos</h2>
+          <p class="admin-card-sub">Acolhimentos e adoções nos últimos 6 meses</p>
+        </div>
+
+        <div class="chart-legend">
+          <span><i class="legend-dot legend-acolhimento"></i>Acolhimentos</span>
+          <span><i class="legend-dot legend-adocao"></i>Adoções</span>
+        </div>
+      </header>
+
+      @if (painel()) {
+        @if (semDadosNoGrafico()) {
+          <p class="admin-empty">Ainda não há acolhimentos nem adoções nesse período.</p>
+        } @else {
+          <div class="bar-chart" role="img" aria-label="Acolhimentos e adoções por mês, nos últimos 6 meses">
+            @for (mes of grafico(); track mes.rotulo) {
+              <div class="bar-group">
+                <div class="bar-pair">
+                  <div class="bar-col is-acolhimento" [style.height.px]="mes.alturaAcolhimentos">
+                    @if (mes.acolhimentos > 0) {
+                      <span class="bar-value">{{ mes.acolhimentos }}</span>
+                    }
+                  </div>
+
+                  <div class="bar-col is-adocao" [style.height.px]="mes.alturaAdocoes">
+                    @if (mes.adocoes > 0) {
+                      <span class="bar-value">{{ mes.adocoes }}</span>
+                    }
+                  </div>
+                </div>
+
+                <span class="bar-month">{{ mes.rotulo }}</span>
+              </div>
+            }
+          </div>
+        }
+      } @else if (!erroPainel()) {
+        <p class="admin-empty">Carregando…</p>
+      }
+    </article>
+
+    <article class="admin-card">
+      <header class="admin-card-head">
+        <div>
+          <h2 class="admin-card-title">Agenda de cuidados</h2>
+          <p class="admin-card-sub">Consultas, vacinas e procedimentos</p>
+        </div>
+      </header>
+
+      <div class="dev-block">
+        <span class="dev-pill">Em desenvolvimento</span>
+        <p>A agenda de cuidados ainda não está disponível.</p>
+      </div>
+    </article>
+
+  </section>
+
+  <!-- ANIMAIS RECENTES + CAMPANHA -->
+  <section class="admin-dash-grid">
+
+    <article class="admin-card">
+      <header class="admin-card-head">
+        <div>
+          <h2 class="admin-card-title">Quem está sob nossos cuidados</h2>
+          <p class="admin-card-sub">Últimos animais acolhidos pela ONG</p>
+        </div>
+
+        <a routerLink="/admin/animais" class="admin-card-link">Ver todos →</a>
+      </header>
+
+      @if (erroRecentes()) {
+        <div class="admin-alert" role="alert">
+          <span>Não foi possível carregar os animais.</span>
+          <button type="button" (click)="carregar()">Tentar de novo</button>
+        </div>
+      } @else if (carregandoRecentes()) {
+        <p class="admin-empty">Carregando…</p>
+      } @else if (recentes().length === 0) {
+        <p class="admin-empty">
+          <strong>Nenhum animal cadastrado ainda</strong>
+          Use "Cadastrar animal" para começar.
+        </p>
+      } @else {
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Animal</th>
+                <th>Porte</th>
+                <th>Situação</th>
+                <th>Acolhimento</th>
+                <th></th>
+              </tr>
+            </thead>
+
+            <tbody>
+              @for (animal of recentes(); track animal.id) {
+                <tr>
+                  <td>
+                    <p class="table-primary-text">{{ animal.name }}</p>
+                    <p class="table-sub-text">
+                      {{ rotuloEspecie(animal.species) }}, {{ rotuloSexo(animal.sex).toLowerCase() }}
+                      · {{ formatarIdade(animal.approximateAgeMonths) }}
+                    </p>
+                  </td>
+                  <td>{{ rotuloPorte(animal.size) }}</td>
+                  <td>
+                    <span class="status-pill" [class]="classeSituacao(animal.status)">
+                      {{ rotuloSituacao(animal.status) }}
+                    </span>
+                  </td>
+                  <td>{{ formatarData(animal.intakeDate) }}</td>
+                  <td>
+                    <div class="admin-table-actions">
+                      <a
+                        routerLink="/admin/animais"
+                        [queryParams]="{ editar: animal.id }"
+                        class="admin-link-btn"
+                      >
+                        Editar
+                      </a>
+                    </div>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+    </article>
+
+    <article class="campaign-admin-card is-dev">
+      <span class="campaign-tag">EM DESENVOLVIMENTO</span>
+      <h2 class="campaign-admin-title">Campanhas de arrecadação</h2>
+      <p class="campaign-admin-desc">
+        O acompanhamento de campanhas e doações ainda não está disponível.
+      </p>
+    </article>
+
+  </section>
+
+</main>

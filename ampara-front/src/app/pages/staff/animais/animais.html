@@ -1,0 +1,366 @@
+<main class="admin-content">
+
+  <section class="admin-page-head">
+    <div>
+      <p class="admin-eyebrow">Gestão / Animais</p>
+      <h1 class="admin-title">Animais acolhidos</h1>
+      <p class="admin-subtitle">Organize o acolhimento, acompanhe a saúde e prepare novos começos.</p>
+    </div>
+
+    <div class="admin-head-actions">
+      <button type="button" class="admin-btn-primary" (click)="abrirNovo()">
+        + Cadastrar animal
+      </button>
+    </div>
+  </section>
+
+  @if (aviso()) {
+    <div class="admin-aviso" role="status">{{ aviso() }}</div>
+  }
+
+  @if (erro()) {
+    <div class="admin-alert" role="alert">
+      <span>{{ erro() }}</span>
+      <button type="button" (click)="carregar()">Tentar de novo</button>
+    </div>
+  }
+
+  <!-- INDICADORES -->
+  <section class="kpi-grid" aria-label="Indicadores">
+    <article class="kpi-card">
+      <div>
+        <p class="kpi-label">Animais acolhidos</p>
+        <p class="kpi-value kpi-value-flat">{{ painel()?.totalAnimals ?? '–' }}</p>
+      </div>
+    </article>
+
+    <article class="kpi-card">
+      <div>
+        <p class="kpi-label">Disponíveis para adoção</p>
+        <p class="kpi-value kpi-value-flat">{{ painel()?.available ?? '–' }}</p>
+      </div>
+    </article>
+
+    <article class="kpi-card">
+      <div>
+        <p class="kpi-label">Em tratamento</p>
+        <p class="kpi-value kpi-value-flat">{{ painel()?.inTreatment ?? '–' }}</p>
+      </div>
+    </article>
+
+    <article class="kpi-card">
+      <div>
+        <p class="kpi-label">Adotados</p>
+        <p class="kpi-value kpi-value-flat">{{ painel()?.adopted ?? '–' }}</p>
+      </div>
+    </article>
+  </section>
+
+  <!-- FILTROS -->
+  <form class="admin-card filtros" (ngSubmit)="aplicarFiltros()">
+    <div class="form-group">
+      <label class="form-label" for="filtro-busca">Buscar por nome</label>
+      <input
+        id="filtro-busca"
+        class="form-control"
+        type="search"
+        name="busca"
+        [(ngModel)]="busca"
+        placeholder="Buscar animal..."
+      >
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="filtro-especie">Espécie</label>
+      <select id="filtro-especie" class="form-control" name="especie" [(ngModel)]="especie">
+        <option value="">Todas</option>
+        <option value="Canine">Canina</option>
+        <option value="Feline">Felina</option>
+        <option value="Other">Outra</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="filtro-situacao">Situação</label>
+      <select id="filtro-situacao" class="form-control" name="situacao" [(ngModel)]="situacao">
+        <option value="">Todas</option>
+        <option value="Available">Disponível</option>
+        <option value="InTreatment">Em tratamento</option>
+        <option value="Adopted">Adotado</option>
+      </select>
+    </div>
+
+    <button type="submit" class="admin-btn-soft botao-filtrar">Aplicar filtros</button>
+  </form>
+
+  <!-- LISTA -->
+  <article class="admin-card lista">
+    @if (carregando()) {
+      <p class="admin-empty">Carregando…</p>
+    } @else if (animais().length === 0 && !erro()) {
+      <p class="admin-empty">
+        <strong>Nenhum animal encontrado</strong>
+        Ajuste os filtros ou cadastre um novo animal.
+        <br>
+        <button type="button" class="admin-link-btn" (click)="limparFiltros()">Limpar filtros</button>
+      </p>
+    } @else {
+      <div class="admin-table-wrap">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Animal</th>
+              <th>Espécie / Porte</th>
+              <th>Situação</th>
+              <th>Acolhimento</th>
+              <th></th>
+            </tr>
+          </thead>
+
+          <tbody>
+            @for (animal of animais(); track animal.id) {
+              <tr>
+                <td>
+                  <p class="table-primary-text">{{ animal.name }}</p>
+                  <p class="table-sub-text">
+                    {{ rotuloSexo(animal.sex) }} · {{ formatarIdade(animal.approximateAgeMonths) }}
+                  </p>
+                </td>
+                <td>{{ rotuloEspecie(animal.species) }} · {{ rotuloPorte(animal.size) }}</td>
+                <td>
+                  <span class="status-pill" [class]="classeSituacao(animal.status)">
+                    {{ rotuloSituacao(animal.status) }}
+                  </span>
+                </td>
+                <td>{{ formatarData(animal.intakeDate) }}</td>
+                <td>
+                  <div class="admin-table-actions">
+                    @if (animal.status === 'Available') {
+                      <a [routerLink]="['/animais', animal.id]" class="admin-link-btn" target="_blank">
+                        Ver perfil
+                      </a>
+                    }
+
+                    <button type="button" class="admin-link-btn" (click)="abrirEdicao(animal)">
+                      Editar
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <footer class="admin-pagination">
+        <span>
+          Mostrando {{ animais().length }} de {{ total() }}
+          {{ total() === 1 ? 'animal' : 'animais' }}
+        </span>
+
+        <div class="admin-pagination-actions">
+          <button
+            type="button"
+            class="admin-btn-soft"
+            (click)="irParaPagina(pagina() - 1)"
+            [disabled]="pagina() <= 1"
+          >
+            Anterior
+          </button>
+
+          <span>Página {{ pagina() }} de {{ totalPaginas() }}</span>
+
+          <button
+            type="button"
+            class="admin-btn-soft"
+            (click)="irParaPagina(pagina() + 1)"
+            [disabled]="pagina() >= totalPaginas()"
+          >
+            Próxima
+          </button>
+        </div>
+      </footer>
+    }
+  </article>
+
+</main>
+
+<!-- CADASTRO E EDIÇÃO -->
+<div
+  class="modal-backdrop"
+  [class.is-open]="modalAberto()"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="animal-modal-titulo"
+>
+  <div class="modal-dialog animal-dialog">
+
+    <header class="modal-header">
+      <h2 class="modal-title" id="animal-modal-titulo">
+        {{ editando() ? 'Editar animal' : 'Cadastrar animal' }}
+      </h2>
+
+      <button type="button" class="modal-close-btn" (click)="fecharModal()" [disabled]="salvando()">
+        Fechar
+      </button>
+    </header>
+
+    <form class="modal-form" (ngSubmit)="salvar()">
+
+      @if (erroForm()) {
+        <div class="admin-alert" role="alert">{{ erroForm() }}</div>
+      }
+
+      <div class="form-group">
+        <label class="form-label" for="animal-nome">Nome</label>
+        <input
+          id="animal-nome"
+          class="form-control"
+          name="name"
+          maxlength="80"
+          [(ngModel)]="form.name"
+          required
+        >
+      </div>
+
+      <div class="form-row-2">
+        <div class="form-group">
+          <label class="form-label" for="animal-especie">Espécie</label>
+          <select id="animal-especie" class="form-control" name="species" [(ngModel)]="form.species">
+            <option value="Canine">Canina</option>
+            <option value="Feline">Felina</option>
+            <option value="Other">Outra</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="animal-sexo">Sexo</label>
+          <select id="animal-sexo" class="form-control" name="sex" [(ngModel)]="form.sex">
+            <option value="Female">Fêmea</option>
+            <option value="Male">Macho</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row-2">
+        <div class="form-group">
+          <label class="form-label" for="animal-porte">Porte</label>
+          <select id="animal-porte" class="form-control" name="size" [(ngModel)]="form.size">
+            <option value="Small">Pequeno</option>
+            <option value="Medium">Médio</option>
+            <option value="Large">Grande</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="animal-idade">Idade aproximada (meses)</label>
+          <input
+            id="animal-idade"
+            class="form-control"
+            type="number"
+            name="ageMonths"
+            min="0"
+            [max]="idadeMaxima"
+            step="1"
+            [(ngModel)]="form.ageMonths"
+            required
+          >
+        </div>
+      </div>
+
+      <div class="form-row-2">
+        <div class="form-group">
+          <label class="form-label" for="animal-acolhimento">Data de acolhimento</label>
+          <input
+            id="animal-acolhimento"
+            class="form-control"
+            type="date"
+            name="intakeDate"
+            [(ngModel)]="form.intakeDate"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="animal-situacao">Situação</label>
+          <select
+            id="animal-situacao"
+            class="form-control"
+            name="status"
+            [(ngModel)]="form.status"
+            [disabled]="editando()?.status === 'Adopted'"
+          >
+            <option value="Available">Disponível</option>
+            <option value="InTreatment">Em tratamento</option>
+            @if (editando()?.status === 'Adopted') {
+              <option value="Adopted">Adotado</option>
+            }
+          </select>
+
+          @if (editando()?.status === 'Adopted') {
+            <small class="dica">A situação de adotado só muda pela aprovação de uma adoção.</small>
+          }
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="animal-descricao">Descrição</label>
+        <textarea
+          id="animal-descricao"
+          class="form-control form-textarea"
+          name="description"
+          maxlength="1000"
+          [(ngModel)]="form.description"
+          placeholder="Personalidade, rotina de cuidados, observações..."
+        ></textarea>
+      </div>
+
+      <fieldset class="saude">
+        <legend class="form-label">Saúde</legend>
+
+        <label class="check">
+          <input type="checkbox" name="isVaccinated" [(ngModel)]="form.isVaccinated">
+          Vacinado
+        </label>
+
+        <label class="check">
+          <input type="checkbox" name="isNeutered" [(ngModel)]="form.isNeutered">
+          Castrado
+        </label>
+
+        <label class="check">
+          <input type="checkbox" name="isDewormed" [(ngModel)]="form.isDewormed">
+          Vermifugado
+        </label>
+      </fieldset>
+
+      <div class="form-group">
+        <label class="form-label" for="animal-foto">Foto (JPG ou PNG, até 5 MB)</label>
+
+        <div class="foto-linha">
+          @if (fotoExibida(); as foto) {
+            <img class="foto-previa" [src]="foto" alt="Foto do animal">
+          }
+
+          <input
+            id="animal-foto"
+            type="file"
+            accept="image/png,image/jpeg"
+            (change)="aoEscolherFoto($event)"
+          >
+        </div>
+      </div>
+
+      <div class="admin-form-actions">
+        <button type="button" class="admin-btn-soft" (click)="fecharModal()" [disabled]="salvando()">
+          Cancelar
+        </button>
+
+        <button type="submit" class="admin-btn-primary" [disabled]="salvando()">
+          {{ salvando() ? 'Salvando…' : (editando() ? 'Salvar alterações' : 'Cadastrar animal') }}
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>

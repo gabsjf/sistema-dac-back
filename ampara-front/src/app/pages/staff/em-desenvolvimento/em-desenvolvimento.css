@@ -1,0 +1,22 @@
+:host {
+  display: block;
+}
+
+.painel-vazio {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  text-align: center;
+  padding: 64px 24px;
+  border-style: dashed;
+}
+
+.painel-vazio .admin-subtitle {
+  max-width: 460px;
+}
+
+.admin-btn-soft {
+  margin-top: 6px;
+  text-decoration: none;
+}

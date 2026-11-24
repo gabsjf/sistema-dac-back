@@ -1,0 +1,122 @@
+<main class="admin-content">
+
+  <section class="admin-page-head">
+    <div>
+      <p class="admin-eyebrow">Organização / Equipe</p>
+      <h1 class="admin-title">Equipe</h1>
+      <p class="admin-subtitle">
+        Escolha quem ajuda a gerir a ONG. Quem é Admin cadastra animais e decide as adoções.
+      </p>
+    </div>
+  </section>
+
+  @if (aviso()) {
+    <div class="admin-aviso" role="status">{{ aviso() }}</div>
+  }
+
+  @if (erro()) {
+    <div class="admin-alert" role="alert">
+      <span>{{ erro() }}</span>
+      <button type="button" (click)="carregar()">Tentar de novo</button>
+    </div>
+  }
+
+  <form class="admin-card busca" (ngSubmit)="buscar()">
+    <div class="form-group">
+      <label class="form-label" for="equipe-busca">Buscar por nome ou e-mail</label>
+      <input
+        id="equipe-busca"
+        class="form-control"
+        type="search"
+        name="busca"
+        [(ngModel)]="busca"
+        placeholder="Buscar pessoa..."
+      >
+    </div>
+
+    <button type="submit" class="admin-btn-soft botao-busca">Buscar</button>
+  </form>
+
+  <article class="admin-card lista">
+    @if (carregando()) {
+      <p class="admin-empty">Carregando…</p>
+    } @else if (pessoas().length === 0 && !erro()) {
+      <p class="admin-empty">
+        <strong>Ninguém encontrado</strong>
+        Tente outro nome ou e-mail.
+      </p>
+    } @else {
+      <div class="admin-table-wrap">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Pessoa</th>
+              <th>Telefone</th>
+              <th>Papel</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            @for (pessoa of pessoas(); track pessoa.id) {
+              <tr>
+                <td>
+                  <p class="table-primary-text">{{ pessoa.fullName }}</p>
+                  <p class="table-sub-text">{{ pessoa.email }}</p>
+                </td>
+
+                <td>{{ pessoa.phone || '–' }}</td>
+
+                <td>
+                  @if (pessoa.role === 'SuperAdmin') {
+                    <span class="status-pill disponivel">Super Admin</span>
+                  } @else {
+                    <select
+                      class="filter-select"
+                      [attr.aria-label]="'Papel de ' + pessoa.fullName"
+                      [ngModel]="pessoa.role"
+                      (ngModelChange)="mudarPapel(pessoa, $event)"
+                      [disabled]="salvandoId() === pessoa.id"
+                    >
+                      <option value="Adopter">Adotante</option>
+                      <option value="Admin">Admin</option>
+                    </select>
+                  }
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <footer class="admin-pagination">
+        <span>
+          Mostrando {{ pessoas().length }} de {{ total() }}
+          {{ total() === 1 ? 'pessoa' : 'pessoas' }}
+        </span>
+
+        <div class="admin-pagination-actions">
+          <button
+            type="button"
+            class="admin-btn-soft"
+            (click)="irParaPagina(pagina() - 1)"
+            [disabled]="pagina() <= 1"
+          >
+            Anterior
+          </button>
+
+          <span>Página {{ pagina() }} de {{ totalPaginas() }}</span>
+
+          <button
+            type="button"
+            class="admin-btn-soft"
+            (click)="irParaPagina(pagina() + 1)"
+            [disabled]="pagina() >= totalPaginas()"
+          >
+            Próxima
+          </button>
+        </div>
+      </footer>
+    }
+  </article>
+
+</main>

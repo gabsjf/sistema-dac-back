@@ -2,6 +2,7 @@
 import { Component, inject, signal, computed, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { PainelService } from '../../../core/painel.service';
 
 interface Adocao {
   id: string;
@@ -49,6 +50,7 @@ interface ResultadoPaginado {
 export class Adocoes implements OnInit {
 
   private readonly http = inject(HttpClient);
+  private readonly painelService = inject(PainelService);
 
   readonly solicitacoes = signal<Adocao[]>([]);
   readonly carregando = signal(false);
@@ -118,6 +120,9 @@ export class Adocoes implements OnInit {
         this.solicitacoes.set(resposta.items ?? []);
         this.total.set(resposta.totalCount ?? 0);
         this.carregando.set(false);
+
+        // Mantém o selo de pendências do menu em dia.
+        this.painelService.carregar();
 
         // Atualiza também a solicitação aberta
         const selecionada = this.adocaoSelecionada();
