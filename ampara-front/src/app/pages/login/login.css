@@ -86,6 +86,32 @@
   cursor: not-allowed;
 }
 
+.login-sucesso {
+  margin: 0 0 12px;
+  padding: 14px;
+  border-radius: 8px;
+  background: #eef7f1;
+  color: #2c5f43;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.login-esqueci {
+  margin: -8px 0 4px;
+  text-align: right;
+  font-size: 14px;
+}
+
+.login-esqueci a {
+  color: #357a53;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.login-esqueci a:hover {
+  text-decoration: underline;
+}
+
 .login-erro {
   margin: 12px 0;
   padding: 12px;

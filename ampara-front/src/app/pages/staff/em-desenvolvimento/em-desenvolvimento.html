@@ -1,0 +1,22 @@
+<main class="admin-content">
+
+  <section class="admin-page-head">
+    <div>
+      <p class="admin-eyebrow">Gestão / {{ secao }}</p>
+      <h1 class="admin-title">{{ secao }}</h1>
+    </div>
+  </section>
+
+  <article class="admin-card painel-vazio">
+    <span class="dev-pill">Em desenvolvimento</span>
+
+    <h2 class="admin-card-title">Esta área ainda está sendo construída</h2>
+
+    @if (descricao) {
+      <p class="admin-subtitle">{{ descricao }}</p>
+    }
+
+    <a routerLink="/admin/visao-geral" class="admin-btn-soft">Voltar à visão geral</a>
+  </article>
+
+</main>

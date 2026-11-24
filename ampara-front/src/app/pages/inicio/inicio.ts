@@ -1,5 +1,5 @@
 
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router, RouterLink } from '@angular/router';
 
@@ -44,6 +44,11 @@ export class Inicio implements OnInit {
   readonly usuarioLogado = signal<UsuarioSessao | null>(
     this.lerUsuario()
   );
+
+  readonly ehEquipe = computed(() => {
+    const papel = this.usuarioLogado()?.role;
+    return papel === 'Admin' || papel === 'SuperAdmin';
+  });
 
   private lerUsuario(): UsuarioSessao | null {
     const usuario = sessionStorage.getItem('ampara_usuario');

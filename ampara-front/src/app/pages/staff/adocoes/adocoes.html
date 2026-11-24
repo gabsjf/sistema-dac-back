@@ -1,653 +1,562 @@
+<main class="admin-content">
 
-<div class="admin-layout">
+  <section class="admin-page-head">
 
-  <!-- MENU LATERAL -->
-  <aside class="admin-sidebar">
+    <div>
+      <p class="admin-eyebrow">GESTÃO / ADOÇÕES</p>
 
-    <a href="/" class="sidebar-brand">
-      <span class="brand-icon">🐾</span>
-      <span class="brand-info">
-        <strong>Ampara</strong>
-        <small>PROTEÇÃO ANIMAL</small>
-      </span>
-    </a>
+      <h1 class="admin-title">
+        Solicitações de adoção
+      </h1>
 
-    <div class="sidebar-organization">
-      <span class="organization-label">ORGANIZAÇÃO</span>
-      <strong>ONG Patas do Bem</strong>
+      <p class="admin-subtitle">
+        Acompanhe cada candidatura, da primeira conversa até o novo lar.
+      </p>
     </div>
 
-    <nav class="sidebar-nav">
-      <span class="nav-section-title">PRINCIPAL</span>
+    <button
+      type="button"
+      class="admin-btn-soft"
+      (click)="carregarSolicitacoes()"
+      [disabled]="carregando()"
+    >
+      ↻ Atualizar
+    </button>
 
-      <a href="/" class="nav-link">
-        <span>⌂</span>
-        Visão geral
-      </a>
+  </section>
 
-      <a href="/admin/adocoes" class="nav-link active">
-        <span>♡</span>
-        Adoções
-      </a>
+  <!-- MENSAGENS -->
+  @if (erro()) {
+    <div class="admin-alert" role="alert">
+      {{ erro() }}
+    </div>
+  }
 
-      <span class="nav-section-title">GESTÃO</span>
+  <!-- INDICADORES -->
+  <section class="kpi-grid">
 
-      <a href="/" class="nav-link">
-        <span>♧</span>
-        Animais
-      </a>
+    <article class="kpi-card">
+      <div>
+        <p class="kpi-value">{{ total() }}</p>
+        <p class="kpi-label">Total de solicitações</p>
+      </div>
+      <span class="kpi-icon">▤</span>
+    </article>
 
-      <a href="/" class="nav-link">
-        <span>✚</span>
-        Saúde
-      </a>
+    <article class="kpi-card">
+      <div>
+        <p class="kpi-value">{{ pendentes() }}</p>
+        <p class="kpi-label">Em análise</p>
+      </div>
+      <span class="kpi-icon">◷</span>
+    </article>
 
-      <a href="/" class="nav-link">
-        <span>▤</span>
-        Financeiro
-      </a>
+    <article class="kpi-card">
+      <div>
+        <p class="kpi-value">{{ aprovadas() }}</p>
+        <p class="kpi-label">Adoções aprovadas</p>
+      </div>
+      <span class="kpi-icon">♡</span>
+    </article>
 
-      <a href="/" class="nav-link">
-        <span>♙</span>
-        Voluntários
-      </a>
+    <article class="kpi-card">
+      <div>
+        <p class="kpi-value">{{ rejeitadas() }}</p>
+        <p class="kpi-label">Solicitações rejeitadas</p>
+      </div>
+      <span class="kpi-icon">—</span>
+    </article>
 
-      <a href="/" class="nav-link">
-        <span>▥</span>
-        Relatórios
-      </a>
-    </nav>
+  </section>
 
-    <div class="sidebar-footer">
-      <span>AMBIENTE ADMINISTRATIVO</span>
-      <strong>Ampara · Gestão</strong>
+  <!-- CARREGAMENTO -->
+  @if (carregando()) {
+
+    <div class="admin-empty">
+      <p>Carregando solicitações...</p>
     </div>
 
-  </aside>
+  } @else {
 
-  <!-- ÁREA PRINCIPAL -->
-  <div class="admin-main-col">
+    <!-- COLUNAS DE ACOMPANHAMENTO -->
+    <section class="adoption-board">
 
-    <!-- CABEÇALHO -->
-    <header class="admin-topbar">
+      <!-- SOLICITAÇÕES RECENTES -->
+      <div class="board-column">
 
-      <div class="topbar-title">
-        <span>Área administrativa</span>
-        <small>Gestão de adoções</small>
-      </div>
-
-      <div class="topbar-actions">
-        <a href="/" class="admin-btn-soft">
-          Ver página pública
-        </a>
-      </div>
-
-    </header>
-
-    <!-- CONTEÚDO -->
-    <main class="admin-content">
-
-      <section class="admin-page-head">
-
-        <div>
-          <p class="admin-eyebrow">GESTÃO / ADOÇÕES</p>
-
-          <h1 class="admin-title">
-            Solicitações de adoção
-          </h1>
-
-          <p class="admin-subtitle">
-            Acompanhe cada candidatura, da primeira conversa até o novo lar.
-          </p>
+        <div class="board-column-header">
+          <h2>Solicitações recentes</h2>
+          <span class="column-count">
+            {{ recentes().length }}
+          </span>
         </div>
 
-        <button
-          type="button"
-          class="admin-btn-soft"
-          (click)="carregarSolicitacoes()"
-          [disabled]="carregando()"
-        >
-          ↻ Atualizar
-        </button>
+        @for (adocao of recentes(); track adocao.id) {
 
-      </section>
+          <article class="adoption-card">
 
-      <!-- MENSAGENS -->
-      @if (erro()) {
-        <div class="admin-alert" role="alert">
-          {{ erro() }}
+            <div class="adoption-card-header">
+              <div>
+                <h3>{{ adocao.applicant.fullName }}</h3>
+                <span class="animal-interest">
+                  Interesse em adotar {{ adocao.animal.name }}
+                </span>
+              </div>
+
+              <span class="status-badge pending">
+                Nova
+              </span>
+            </div>
+
+            <div class="adoption-card-info">
+              <p>{{ adocao.applicant.email }}</p>
+              <p>{{ adocao.applicant.phone }}</p>
+              <p>
+                Recebida em
+                {{ adocao.createdAt | date:'dd/MM/yyyy' }}
+              </p>
+            </div>
+
+            <button
+              type="button"
+              class="admin-btn-soft card-action"
+              (click)="abrirDetalhes(adocao)"
+            >
+              Ver detalhes
+            </button>
+
+            <button
+              type="button"
+              class="admin-btn-primary card-action"
+              (click)="aprovar(adocao)"
+            >
+              Aprovar adoção
+            </button>
+
+            <button
+              type="button"
+              class="admin-btn-danger card-action"
+              (click)="rejeitar(adocao)"
+            >
+              Rejeitar solicitação
+            </button>
+
+          </article>
+
+        } @empty {
+
+          <div class="column-empty">
+            Nenhuma solicitação recente.
+          </div>
+
+        }
+
+      </div>
+
+      <!-- EM ANÁLISE -->
+      <div class="board-column">
+
+        <div class="board-column-header">
+          <h2>Em análise</h2>
+          <span class="column-count">
+            {{ emAnalise().length }}
+          </span>
         </div>
+
+        @for (adocao of emAnalise(); track adocao.id) {
+
+          <article class="adoption-card">
+
+            <div class="adoption-card-header">
+              <div>
+                <h3>{{ adocao.applicant.fullName }}</h3>
+                <span class="animal-interest">
+                  Interesse em adotar {{ adocao.animal.name }}
+                </span>
+              </div>
+
+              <span class="status-badge pending">
+                Em análise
+              </span>
+            </div>
+
+            <div class="adoption-card-info">
+              <p>{{ adocao.applicant.email }}</p>
+              <p>
+                Solicitação:
+                {{ adocao.createdAt | date:'dd/MM/yyyy' }}
+              </p>
+              <p>{{ adocao.applicant.housing }}</p>
+            </div>
+
+            <button
+              type="button"
+              class="admin-btn-soft card-action"
+              (click)="abrirDetalhes(adocao)"
+            >
+              Ver detalhes
+            </button>
+
+            <div class="card-actions">
+
+              <button
+                type="button"
+                class="admin-btn-primary"
+                (click)="aprovar(adocao)"
+              >
+                Aprovar
+              </button>
+
+              <button
+                type="button"
+                class="admin-btn-danger"
+                (click)="rejeitar(adocao)"
+              >
+                Rejeitar
+              </button>
+
+            </div>
+
+          </article>
+
+        } @empty {
+
+          <div class="column-empty">
+            Nenhuma solicitação em análise.
+          </div>
+
+        }
+
+      </div>
+
+      <!-- APROVADAS -->
+      <div class="board-column">
+
+        <div class="board-column-header">
+          <h2>Adoções aprovadas</h2>
+          <span class="column-count">
+            {{ concluidas().length }}
+          </span>
+        </div>
+
+        @for (adocao of concluidas(); track adocao.id) {
+
+          <article class="adoption-card">
+
+            <div class="adoption-card-header">
+              <div>
+                <h3>{{ adocao.applicant.fullName }}</h3>
+                <span class="animal-interest">
+                  Adotou {{ adocao.animal.name }}
+                </span>
+              </div>
+
+              <span class="status-badge approved">
+                Aprovada
+              </span>
+            </div>
+
+            <div class="adoption-card-info">
+              <p>{{ adocao.applicant.email }}</p>
+              <p>{{ adocao.applicant.phone }}</p>
+              <p>
+                Aprovada em
+                {{ adocao.decidedAt ? (adocao.decidedAt | date:'dd/MM/yyyy') : '—' }}
+              </p>
+            </div>
+
+            <button
+              type="button"
+              class="admin-btn-soft card-action"
+              (click)="abrirDetalhes(adocao)"
+            >
+              Ver detalhes
+            </button>
+
+          </article>
+
+        } @empty {
+
+          <div class="column-empty">
+            Nenhuma adoção aprovada ainda.
+          </div>
+
+        }
+
+      </div>
+
+    </section>
+
+    <!-- HISTÓRICO DE REJEIÇÕES -->
+    <section class="rejected-section">
+
+      <h2>Solicitações rejeitadas</h2>
+
+      @for (adocao of solicitacoes(); track adocao.id) {
+
+        @if (adocao.status === 'Rejected') {
+
+          <article class="rejected-card">
+
+            <div>
+              <strong>{{ adocao.applicant.fullName }}</strong>
+              <p>Interesse em {{ adocao.animal.name }}</p>
+            </div>
+
+            <span class="status-badge rejected">
+              Rejeitada
+            </span>
+
+            <p class="rejection-reason">
+              {{ adocao.rejectionReason || 'Motivo não informado.' }}
+            </p>
+
+            <button
+              type="button"
+              class="admin-btn-soft"
+              (click)="abrirDetalhes(adocao)"
+            >
+              Ver detalhes
+            </button>
+
+          </article>
+
+        }
+
+      } @empty {
+
+        <p class="column-empty">
+          Nenhuma solicitação cadastrada.
+        </p>
+
       }
 
-      <!-- INDICADORES -->
-      <section class="kpi-grid">
+    </section>
 
-        <article class="kpi-card">
+  }
+
+  <!-- JANELA DE DETALHES -->
+  @if (adocaoSelecionada(); as adocao) {
+
+    <div
+      class="modal-overlay"
+      (click)="fecharDetalhes()"
+      (keydown.escape)="fecharDetalhes()"
+    >
+
+      <section
+        class="details-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modal-title"
+        (click)="$event.stopPropagation()"
+      >
+
+        <!-- CABEÇALHO DA JANELA -->
+        <header class="modal-header">
+
           <div>
-            <p class="kpi-value">{{ total() }}</p>
-            <p class="kpi-label">Total de solicitações</p>
+            <span class="admin-eyebrow">
+              GESTÃO / SOLICITAÇÕES
+            </span>
+
+            <h2 id="modal-title">
+              Detalhes da adoção
+            </h2>
+
+            <p>
+              Informações completas da candidatura.
+            </p>
           </div>
-          <span class="kpi-icon">▤</span>
-        </article>
 
-        <article class="kpi-card">
-          <div>
-            <p class="kpi-value">{{ pendentes() }}</p>
-            <p class="kpi-label">Em análise</p>
-          </div>
-          <span class="kpi-icon">◷</span>
-        </article>
+          <button
+            type="button"
+            class="modal-close"
+            aria-label="Fechar"
+            (click)="fecharDetalhes()"
+          >
+            ×
+          </button>
 
-        <article class="kpi-card">
-          <div>
-            <p class="kpi-value">{{ aprovadas() }}</p>
-            <p class="kpi-label">Adoções aprovadas</p>
-          </div>
-          <span class="kpi-icon">♡</span>
-        </article>
+        </header>
 
-        <article class="kpi-card">
-          <div>
-            <p class="kpi-value">{{ rejeitadas() }}</p>
-            <p class="kpi-label">Solicitações rejeitadas</p>
-          </div>
-          <span class="kpi-icon">—</span>
-        </article>
+        <!-- CONTEÚDO -->
+        <div class="modal-content">
 
-      </section>
+          <!-- INTERESSADO -->
+          <section class="detail-section">
 
-      <!-- CARREGAMENTO -->
-      @if (carregando()) {
+            <h3>Dados do interessado</h3>
 
-        <div class="admin-empty">
-          <p>Carregando solicitações...</p>
-        </div>
+            <div class="detail-grid">
 
-      } @else {
+              <div>
+                <span>Nome completo</span>
+                <strong>{{ adocao.applicant.fullName }}</strong>
+              </div>
 
-        <!-- COLUNAS DE ACOMPANHAMENTO -->
-        <section class="adoption-board">
+              <div>
+                <span>E-mail</span>
+                <strong>{{ adocao.applicant.email }}</strong>
+              </div>
 
-          <!-- SOLICITAÇÕES RECENTES -->
-          <div class="board-column">
+              <div>
+                <span>Telefone</span>
+                <strong>{{ adocao.applicant.phone }}</strong>
+              </div>
 
-            <div class="board-column-header">
-              <h2>Solicitações recentes</h2>
-              <span class="column-count">
-                {{ recentes().length }}
-              </span>
             </div>
 
-            @for (adocao of recentes(); track adocao.id) {
+          </section>
 
-              <article class="adoption-card">
+          <!-- MORADIA E ROTINA -->
+          <section class="detail-section">
 
-                <div class="adoption-card-header">
-                  <div>
-                    <h3>{{ adocao.applicant.fullName }}</h3>
-                    <span class="animal-interest">
-                      Interesse em adotar {{ adocao.animal.name }}
-                    </span>
-                  </div>
+            <h3>Moradia e rotina</h3>
 
-                  <span class="status-badge pending">
-                    Nova
-                  </span>
-                </div>
+            <div class="detail-field">
+              <span>Condições de moradia</span>
+              <p>{{ adocao.applicant.housing }}</p>
+            </div>
 
-                <div class="adoption-card-info">
-                  <p>{{ adocao.applicant.email }}</p>
-                  <p>{{ adocao.applicant.phone }}</p>
-                  <p>
-                    Recebida em
-                    {{ adocao.createdAt | date:'dd/MM/yyyy' }}
-                  </p>
-                </div>
+            <div class="detail-field">
+              <span>Rotina do interessado</span>
+              <p>{{ adocao.applicant.routine }}</p>
+            </div>
 
-                <button
-                  type="button"
-                  class="admin-btn-soft card-action"
-                  (click)="abrirDetalhes(adocao)"
-                >
-                  Ver detalhes
-                </button>
+            <div class="detail-field">
+              <span>Mensagem adicional</span>
+              <p>
+                {{ adocao.applicant.message || 'Nenhuma mensagem enviada.' }}
+              </p>
+            </div>
 
-                <button
-                  type="button"
-                  class="admin-btn-primary card-action"
-                  (click)="aprovar(adocao)"
-                >
-                  Aprovar adoção
-                </button>
+          </section>
 
-                <button
-                  type="button"
-                  class="admin-btn-danger card-action"
-                  (click)="rejeitar(adocao)"
-                >
-                  Rejeitar solicitação
-                </button>
+          <!-- ANIMAL -->
+          <section class="detail-section">
 
-              </article>
+            <h3>Informações do animal</h3>
 
-            } @empty {
+            @if (adocao.animal.photoUrl) {
 
-              <div class="column-empty">
-                Nenhuma solicitação recente.
-              </div>
+              <img
+                class="detail-animal-photo"
+                [src]="adocao.animal.photoUrl"
+                [alt]="'Foto de ' + adocao.animal.name"
+              >
 
             }
 
-          </div>
+            <div class="detail-grid">
 
-          <!-- EM ANÁLISE -->
-          <div class="board-column">
-
-            <div class="board-column-header">
-              <h2>Em análise</h2>
-              <span class="column-count">
-                {{ emAnalise().length }}
-              </span>
-            </div>
-
-            @for (adocao of emAnalise(); track adocao.id) {
-
-              <article class="adoption-card">
-
-                <div class="adoption-card-header">
-                  <div>
-                    <h3>{{ adocao.applicant.fullName }}</h3>
-                    <span class="animal-interest">
-                      Interesse em adotar {{ adocao.animal.name }}
-                    </span>
-                  </div>
-
-                  <span class="status-badge pending">
-                    Em análise
-                  </span>
-                </div>
-
-                <div class="adoption-card-info">
-                  <p>{{ adocao.applicant.email }}</p>
-                  <p>
-                    Solicitação:
-                    {{ adocao.createdAt | date:'dd/MM/yyyy' }}
-                  </p>
-                  <p>{{ adocao.applicant.housing }}</p>
-                </div>
-
-                <button
-                  type="button"
-                  class="admin-btn-soft card-action"
-                  (click)="abrirDetalhes(adocao)"
-                >
-                  Ver detalhes
-                </button>
-
-                <div class="card-actions">
-
-                  <button
-                    type="button"
-                    class="admin-btn-primary"
-                    (click)="aprovar(adocao)"
-                  >
-                    Aprovar
-                  </button>
-
-                  <button
-                    type="button"
-                    class="admin-btn-danger"
-                    (click)="rejeitar(adocao)"
-                  >
-                    Rejeitar
-                  </button>
-
-                </div>
-
-              </article>
-
-            } @empty {
-
-              <div class="column-empty">
-                Nenhuma solicitação em análise.
+              <div>
+                <span>Nome</span>
+                <strong>{{ adocao.animal.name }}</strong>
               </div>
 
-            }
-
-          </div>
-
-          <!-- APROVADAS -->
-          <div class="board-column">
-
-            <div class="board-column-header">
-              <h2>Adoções aprovadas</h2>
-              <span class="column-count">
-                {{ concluidas().length }}
-              </span>
-            </div>
-
-            @for (adocao of concluidas(); track adocao.id) {
-
-              <article class="adoption-card">
-
-                <div class="adoption-card-header">
-                  <div>
-                    <h3>{{ adocao.applicant.fullName }}</h3>
-                    <span class="animal-interest">
-                      Adotou {{ adocao.animal.name }}
-                    </span>
-                  </div>
-
-                  <span class="status-badge approved">
-                    Aprovada
-                  </span>
-                </div>
-
-                <div class="adoption-card-info">
-                  <p>{{ adocao.applicant.email }}</p>
-                  <p>{{ adocao.applicant.phone }}</p>
-                  <p>
-                    Aprovada em
-                    {{ adocao.decidedAt ? (adocao.decidedAt | date:'dd/MM/yyyy') : '—' }}
-                  </p>
-                </div>
-
-                <button
-                  type="button"
-                  class="admin-btn-soft card-action"
-                  (click)="abrirDetalhes(adocao)"
-                >
-                  Ver detalhes
-                </button>
-
-              </article>
-
-            } @empty {
-
-              <div class="column-empty">
-                Nenhuma adoção aprovada ainda.
+              <div>
+                <span>Espécie</span>
+                <strong>{{ adocao.animal.species }}</strong>
               </div>
 
-            }
+              <div>
+                <span>Sexo</span>
+                <strong>{{ adocao.animal.sex }}</strong>
+              </div>
 
-          </div>
+              <div>
+                <span>Porte</span>
+                <strong>{{ adocao.animal.size }}</strong>
+              </div>
 
-        </section>
+              <div>
+                <span>Idade aproximada</span>
+                <strong>
+                  {{ idadeAnimal(adocao.animal.approximateAgeMonths) }}
+                </strong>
+              </div>
 
-        <!-- HISTÓRICO DE REJEIÇÕES -->
-        <section class="rejected-section">
+            </div>
 
-          <h2>Solicitações rejeitadas</h2>
+          </section>
 
-          @for (adocao of solicitacoes(); track adocao.id) {
+          <!-- SOLICITAÇÃO -->
+          <section class="detail-section">
+
+            <h3>Informações da solicitação</h3>
+
+            <div class="detail-grid">
+
+              <div>
+                <span>Data de envio</span>
+                <strong>
+                  {{ adocao.createdAt | date:'dd/MM/yyyy HH:mm' }}
+                </strong>
+              </div>
+
+              <div>
+                <span>Status</span>
+                <strong>{{ nomeStatus(adocao.status) }}</strong>
+              </div>
+
+              <div>
+                <span>Data da decisão</span>
+                <strong>
+                  {{ adocao.decidedAt ? (adocao.decidedAt | date:'dd/MM/yyyy HH:mm') : 'Aguardando decisão' }}
+                </strong>
+              </div>
+
+            </div>
 
             @if (adocao.status === 'Rejected') {
 
-              <article class="rejected-card">
-
-                <div>
-                  <strong>{{ adocao.applicant.fullName }}</strong>
-                  <p>Interesse em {{ adocao.animal.name }}</p>
-                </div>
-
-                <span class="status-badge rejected">
-                  Rejeitada
-                </span>
-
-                <p class="rejection-reason">
-                  {{ adocao.rejectionReason || 'Motivo não informado.' }}
-                </p>
-
-                <button
-                  type="button"
-                  class="admin-btn-soft"
-                  (click)="abrirDetalhes(adocao)"
-                >
-                  Ver detalhes
-                </button>
-
-              </article>
-
-            }
-
-          } @empty {
-
-            <p class="column-empty">
-              Nenhuma solicitação cadastrada.
-            </p>
-
-          }
-
-        </section>
-
-      }
-
-      <!-- JANELA DE DETALHES -->
-      @if (adocaoSelecionada(); as adocao) {
-
-        <div
-          class="modal-overlay"
-          (click)="fecharDetalhes()"
-          (keydown.escape)="fecharDetalhes()"
-        >
-
-          <section
-            class="details-modal"
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="modal-title"
-            (click)="$event.stopPropagation()"
-          >
-
-            <!-- CABEÇALHO DA JANELA -->
-            <header class="modal-header">
-
-              <div>
-                <span class="admin-eyebrow">
-                  GESTÃO / SOLICITAÇÕES
-                </span>
-
-                <h2 id="modal-title">
-                  Detalhes da adoção
-                </h2>
-
+              <div class="detail-rejection">
+                <span>Motivo da rejeição</span>
                 <p>
-                  Informações completas da candidatura.
+                  {{ adocao.rejectionReason || 'Motivo não informado.' }}
                 </p>
               </div>
 
-              <button
-                type="button"
-                class="modal-close"
-                aria-label="Fechar"
-                (click)="fecharDetalhes()"
-              >
-                ×
-              </button>
-
-            </header>
-
-            <!-- CONTEÚDO -->
-            <div class="modal-content">
-
-              <!-- INTERESSADO -->
-              <section class="detail-section">
-
-                <h3>Dados do interessado</h3>
-
-                <div class="detail-grid">
-
-                  <div>
-                    <span>Nome completo</span>
-                    <strong>{{ adocao.applicant.fullName }}</strong>
-                  </div>
-
-                  <div>
-                    <span>E-mail</span>
-                    <strong>{{ adocao.applicant.email }}</strong>
-                  </div>
-
-                  <div>
-                    <span>Telefone</span>
-                    <strong>{{ adocao.applicant.phone }}</strong>
-                  </div>
-
-                </div>
-
-              </section>
-
-              <!-- MORADIA E ROTINA -->
-              <section class="detail-section">
-
-                <h3>Moradia e rotina</h3>
-
-                <div class="detail-field">
-                  <span>Condições de moradia</span>
-                  <p>{{ adocao.applicant.housing }}</p>
-                </div>
-
-                <div class="detail-field">
-                  <span>Rotina do interessado</span>
-                  <p>{{ adocao.applicant.routine }}</p>
-                </div>
-
-                <div class="detail-field">
-                  <span>Mensagem adicional</span>
-                  <p>
-                    {{ adocao.applicant.message || 'Nenhuma mensagem enviada.' }}
-                  </p>
-                </div>
-
-              </section>
-
-              <!-- ANIMAL -->
-              <section class="detail-section">
-
-                <h3>Informações do animal</h3>
-
-                @if (adocao.animal.photoUrl) {
-
-                  <img
-                    class="detail-animal-photo"
-                    [src]="adocao.animal.photoUrl"
-                    [alt]="'Foto de ' + adocao.animal.name"
-                  >
-
-                }
-
-                <div class="detail-grid">
-
-                  <div>
-                    <span>Nome</span>
-                    <strong>{{ adocao.animal.name }}</strong>
-                  </div>
-
-                  <div>
-                    <span>Espécie</span>
-                    <strong>{{ adocao.animal.species }}</strong>
-                  </div>
-
-                  <div>
-                    <span>Sexo</span>
-                    <strong>{{ adocao.animal.sex }}</strong>
-                  </div>
-
-                  <div>
-                    <span>Porte</span>
-                    <strong>{{ adocao.animal.size }}</strong>
-                  </div>
-
-                  <div>
-                    <span>Idade aproximada</span>
-                    <strong>
-                      {{ idadeAnimal(adocao.animal.approximateAgeMonths) }}
-                    </strong>
-                  </div>
-
-                </div>
-
-              </section>
-
-              <!-- SOLICITAÇÃO -->
-              <section class="detail-section">
-
-                <h3>Informações da solicitação</h3>
-
-                <div class="detail-grid">
-
-                  <div>
-                    <span>Data de envio</span>
-                    <strong>
-                      {{ adocao.createdAt | date:'dd/MM/yyyy HH:mm' }}
-                    </strong>
-                  </div>
-
-                  <div>
-                    <span>Status</span>
-                    <strong>{{ nomeStatus(adocao.status) }}</strong>
-                  </div>
-
-                  <div>
-                    <span>Data da decisão</span>
-                    <strong>
-                      {{ adocao.decidedAt ? (adocao.decidedAt | date:'dd/MM/yyyy HH:mm') : 'Aguardando decisão' }}
-                    </strong>
-                  </div>
-
-                </div>
-
-                @if (adocao.status === 'Rejected') {
-
-                  <div class="detail-rejection">
-                    <span>Motivo da rejeição</span>
-                    <p>
-                      {{ adocao.rejectionReason || 'Motivo não informado.' }}
-                    </p>
-                  </div>
-
-                }
-
-              </section>
-
-            </div>
-
-            <!-- RODAPÉ DA JANELA -->
-            <footer class="modal-footer">
-
-              @if (adocao.status === 'Approved') {
-
-                <button
-                  type="button"
-                  class="admin-btn-danger"
-                  (click)="desfazerAprovacao(adocao)"
-                >
-                  Desfazer aprovação
-                </button>
-
-              }
-
-              <button
-                type="button"
-                class="admin-btn-soft"
-                (click)="fecharDetalhes()"
-              >
-                Fechar
-              </button>
-
-            </footer>
+            }
 
           </section>
 
         </div>
 
-      }
+        <!-- RODAPÉ DA JANELA -->
+        <footer class="modal-footer">
 
-      <footer class="admin-footer">
-        Ampara · Sistema de gestão e proteção animal
-      </footer>
+          @if (adocao.status === 'Approved') {
 
-    </main>
+            <button
+              type="button"
+              class="admin-btn-danger"
+              (click)="desfazerAprovacao(adocao)"
+            >
+              Desfazer aprovação
+            </button>
 
-  </div>
+          }
 
-</div>
+          <button
+            type="button"
+            class="admin-btn-soft"
+            (click)="fecharDetalhes()"
+          >
+            Fechar
+          </button>
+
+        </footer>
+
+      </section>
+
+    </div>
+
+  }
+
+  <footer class="admin-footer">
+    Ampara · Sistema de gestão e proteção animal
+  </footer>
+
+</main>

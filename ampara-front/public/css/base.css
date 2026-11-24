@@ -107,6 +107,44 @@ textarea {
     gap: 12px;
 }
 
+.user-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+    padding: 5px 16px 5px 5px;
+    border: 1px solid var(--border-subtle);
+    border-radius: 999px;
+    background-color: var(--bg-card);
+    color: var(--text-primary);
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.user-avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: var(--brand-primary-soft);
+    color: var(--brand-primary);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.user-avatar svg {
+    width: 18px;
+    height: 18px;
+}
+
+.user-name {
+    max-width: 180px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 /* =========================================================
    BOTÕES
    ========================================================= */
