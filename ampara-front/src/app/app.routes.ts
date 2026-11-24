@@ -23,6 +23,16 @@ export const routes: Routes = [
       import('./pages/login/login').then(m => m.Login)
   },
   {
+    path: 'esqueci-senha',
+    loadComponent: () =>
+      import('./pages/esqueci-senha/esqueci-senha').then(m => m.EsqueciSenha)
+  },
+  {
+    path: 'redefinir-senha',
+    loadComponent: () =>
+      import('./pages/redefinir-senha/redefinir-senha').then(m => m.RedefinirSenha)
+  },
+  {
     path: 'registrar',
     loadComponent: () =>
       import('./pages/cadastro/cadastro').then(m => m.Cadastro)

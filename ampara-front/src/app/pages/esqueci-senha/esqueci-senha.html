@@ -1,0 +1,105 @@
+<div class="page-shell">
+
+  <header class="site-header">
+    <a routerLink="/" class="brand-link" aria-label="Patas do Bem - Página inicial">
+      <span class="brand-badge" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <circle cx="7.5" cy="9.5" r="1.9"/>
+          <circle cx="11.2" cy="6.8" r="1.9"/>
+          <circle cx="15.3" cy="7.6" r="1.8"/>
+          <circle cx="17.8" cy="11.2" r="1.7"/>
+          <path d="M12.2 11.4c-2.6 0-4.9 1.8-5.3 4.3-.3 1.7.9 3.1 2.6 3.1 1 0 1.8-.4 2.7-.4.9 0 1.7.4 2.7.4 1.7 0 2.9-1.4 2.6-3.1-.4-2.5-2.7-4.3-4.3z"/>
+        </svg>
+      </span>
+
+      <span class="brand-text">
+        <span class="brand-title">Patas do Bem</span>
+        <span class="brand-subtitle">PROTEÇÃO ANIMAL</span>
+      </span>
+    </a>
+
+    <div class="header-actions">
+      <a routerLink="/" class="btn btn-soft">Início</a>
+      <a routerLink="/entrar" class="btn btn-header-primary">Entrar</a>
+    </div>
+  </header>
+
+  <main class="login-main">
+
+    <section class="login-card" aria-labelledby="esqueci-titulo">
+
+      <div class="login-header">
+        <p class="hero-eyebrow">RECUPERAR ACESSO</p>
+
+        <h1 id="esqueci-titulo">Esqueceu sua senha?</h1>
+
+        <p>
+          Informe o e-mail da sua conta e enviaremos um link
+          para você criar uma nova senha.
+        </p>
+      </div>
+
+      @if (enviado()) {
+
+        <p class="login-sucesso" role="status">
+          Se existir uma conta com o e-mail <strong>{{ email }}</strong>,
+          você receberá um link para redefinir a senha em instantes.
+          Confira também a caixa de spam.
+        </p>
+
+        <!-- MOCK: simula o clique no link recebido por e-mail. Remover quando houver API. -->
+        <p class="login-cadastro">
+          <a routerLink="/redefinir-senha" [queryParams]="{ token: 'mock' }">
+            Simular abertura do link do e-mail
+          </a>
+        </p>
+
+        <p class="login-cadastro">
+          <a routerLink="/entrar">Voltar para o login</a>
+        </p>
+
+      } @else {
+
+        <form #formEsqueci="ngForm" (ngSubmit)="enviar()">
+
+          <div class="login-campo">
+            <label for="email">E-mail</label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              [(ngModel)]="email"
+              placeholder="Digite seu e-mail"
+              autocomplete="email"
+              required
+              email
+            >
+          </div>
+
+          @if (erro()) {
+            <p class="login-erro" role="alert">
+              {{ erro() }}
+            </p>
+          }
+
+          <button
+            type="submit"
+            class="btn btn-primary btn-full"
+            [disabled]="formEsqueci.invalid || enviando()"
+          >
+            {{ enviando() ? 'Enviando...' : 'Enviar link de redefinição' }}
+          </button>
+
+        </form>
+
+        <p class="login-cadastro">
+          Lembrou a senha?
+          <a routerLink="/entrar">Voltar para o login</a>
+        </p>
+
+      }
+
+    </section>
+
+  </main>
+</div>

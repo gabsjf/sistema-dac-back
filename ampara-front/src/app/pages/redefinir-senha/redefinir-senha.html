@@ -1,0 +1,111 @@
+<div class="page-shell">
+
+  <header class="site-header">
+    <a routerLink="/" class="brand-link" aria-label="Patas do Bem - Página inicial">
+      <span class="brand-badge" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <circle cx="7.5" cy="9.5" r="1.9"/>
+          <circle cx="11.2" cy="6.8" r="1.9"/>
+          <circle cx="15.3" cy="7.6" r="1.8"/>
+          <circle cx="17.8" cy="11.2" r="1.7"/>
+          <path d="M12.2 11.4c-2.6 0-4.9 1.8-5.3 4.3-.3 1.7.9 3.1 2.6 3.1 1 0 1.8-.4 2.7-.4.9 0 1.7.4 2.7.4 1.7 0 2.9-1.4 2.6-3.1-.4-2.5-2.7-4.3-4.3z"/>
+        </svg>
+      </span>
+
+      <span class="brand-text">
+        <span class="brand-title">Patas do Bem</span>
+        <span class="brand-subtitle">PROTEÇÃO ANIMAL</span>
+      </span>
+    </a>
+
+    <div class="header-actions">
+      <a routerLink="/" class="btn btn-soft">Início</a>
+      <a routerLink="/entrar" class="btn btn-header-primary">Entrar</a>
+    </div>
+  </header>
+
+  <main class="login-main">
+
+    <section class="login-card" aria-labelledby="redefinir-titulo">
+
+      @if (!token) {
+
+        <div class="login-header">
+          <p class="hero-eyebrow">LINK INVÁLIDO</p>
+          <h1 id="redefinir-titulo">Link de redefinição inválido</h1>
+          <p>O link está incompleto ou expirou. Solicite um novo para continuar.</p>
+        </div>
+
+        <p class="login-cadastro">
+          <a routerLink="/esqueci-senha">Solicitar novo link</a>
+        </p>
+
+      } @else if (concluido()) {
+
+        <div class="login-header">
+          <p class="hero-eyebrow">TUDO CERTO</p>
+          <h1 id="redefinir-titulo">Senha redefinida</h1>
+          <p>Sua nova senha já foi salva. Entre na sua conta para continuar.</p>
+        </div>
+
+        <a routerLink="/entrar" class="btn btn-primary btn-full">Ir para o login</a>
+
+      } @else {
+
+        <div class="login-header">
+          <p class="hero-eyebrow">NOVA SENHA</p>
+          <h1 id="redefinir-titulo">Crie uma nova senha</h1>
+          <p>Escolha uma senha com pelo menos 8 caracteres.</p>
+        </div>
+
+        <form #formRedefinir="ngForm" (ngSubmit)="salvar()">
+
+          <div class="login-campo">
+            <label for="novaSenha">Nova senha</label>
+            <input
+              id="novaSenha"
+              name="novaSenha"
+              type="password"
+              [(ngModel)]="novaSenha"
+              placeholder="Digite a nova senha"
+              autocomplete="new-password"
+              minlength="8"
+              required
+            >
+          </div>
+
+          <div class="login-campo">
+            <label for="confirmacao">Confirmar nova senha</label>
+            <input
+              id="confirmacao"
+              name="confirmacao"
+              type="password"
+              [(ngModel)]="confirmacao"
+              placeholder="Repita a nova senha"
+              autocomplete="new-password"
+              required
+            >
+          </div>
+
+          @if (erro()) {
+            <p class="login-erro" role="alert">
+              {{ erro() }}
+            </p>
+          }
+
+          <button
+            type="submit"
+            class="btn btn-primary btn-full"
+            [disabled]="formRedefinir.invalid || salvando()"
+          >
+            {{ salvando() ? 'Salvando...' : 'Redefinir senha' }}
+          </button>
+
+        </form>
+
+      }
+
+    </section>
+
+  </main>
+</div>
