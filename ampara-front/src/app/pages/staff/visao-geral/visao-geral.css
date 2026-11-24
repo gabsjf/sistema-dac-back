@@ -1,0 +1,29 @@
+:host {
+  display: block;
+}
+
+.admin-btn-primary {
+  text-decoration: none;
+}
+
+.legend-acolhimento {
+  background-color: #4D8C77;
+}
+
+.legend-adocao {
+  background-color: #E2B690;
+}
+
+.bar-value {
+  position: absolute;
+  top: -16px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 10px;
+  font-weight: 600;
+  color: #4A5F55;
+}
+
+.admin-link-btn {
+  text-decoration: none;
+}

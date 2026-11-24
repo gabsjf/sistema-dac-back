@@ -1,0 +1,225 @@
+<div class="admin-layout">
+
+  <!-- MENU LATERAL -->
+  <aside class="admin-sidebar">
+
+    <div>
+      <div class="admin-brand-box">
+        <a routerLink="/admin/visao-geral" class="admin-brand-row" aria-label="Patas do Bem - Visão geral">
+          <span class="admin-brand-mark">
+            <img src="/assets/icons/paw-white.svg" alt="">
+          </span>
+
+          <span>
+            <span class="admin-brand-name">Patas do Bem</span>
+            <span class="admin-brand-tagline">Gestão &amp; adoção</span>
+          </span>
+        </a>
+      </div>
+
+      <div class="admin-org-box">
+        <div>
+          <p class="admin-org-name">ONG Patas do Bem</p>
+          <p class="admin-org-plan">Equipe de gestão</p>
+        </div>
+      </div>
+
+      <nav aria-label="Menu da equipe">
+        <p class="admin-nav-section-title">Principal</p>
+
+        <div class="admin-nav-list">
+          <a routerLink="/admin/visao-geral" routerLinkActive="is-active" class="admin-nav-item">
+            <span class="admin-nav-left">
+              <img src="/assets/icons/grid.svg" alt="">
+              <span>Visão geral</span>
+            </span>
+          </a>
+
+          <a routerLink="/admin/animais" routerLinkActive="is-active" class="admin-nav-item">
+            <span class="admin-nav-left">
+              <img src="/assets/icons/paw.svg" alt="">
+              <span>Animais</span>
+            </span>
+          </a>
+
+          <a routerLink="/admin/adocoes" routerLinkActive="is-active" class="admin-nav-item">
+            <span class="admin-nav-left">
+              <img src="/assets/icons/heart.svg" alt="">
+              <span>Adoções</span>
+            </span>
+
+            @if (pendentes() > 0) {
+              <span class="admin-nav-badge" [title]="pendentes() + ' aguardando análise'">
+                {{ pendentes() }}
+              </span>
+            }
+          </a>
+
+          <a routerLink="/admin/saude" routerLinkActive="is-active" class="admin-nav-item">
+            <span class="admin-nav-left">
+              <img src="/assets/icons/care.svg" alt="">
+              <span>Saúde e cuidados</span>
+            </span>
+            <span class="nav-soon">Em breve</span>
+          </a>
+
+          <a routerLink="/admin/financeiro" routerLinkActive="is-active" class="admin-nav-item">
+            <span class="admin-nav-left">
+              <img src="/assets/icons/wallet.svg" alt="">
+              <span>Financeiro</span>
+            </span>
+            <span class="nav-soon">Em breve</span>
+          </a>
+
+          <a routerLink="/admin/voluntarios" routerLinkActive="is-active" class="admin-nav-item">
+            <span class="admin-nav-left">
+              <img src="/assets/icons/users.svg" alt="">
+              <span>Voluntários</span>
+            </span>
+            <span class="nav-soon">Em breve</span>
+          </a>
+
+          <a routerLink="/admin/relatorios" routerLinkActive="is-active" class="admin-nav-item">
+            <span class="admin-nav-left">
+              <img src="/assets/icons/chart.svg" alt="">
+              <span>Relatórios</span>
+            </span>
+            <span class="nav-soon">Em breve</span>
+          </a>
+        </div>
+
+        <p class="admin-nav-section-title">Organização</p>
+
+        <div class="admin-nav-list">
+          @if (ehSuperAdmin) {
+            <a routerLink="/admin/equipe" routerLinkActive="is-active" class="admin-nav-item">
+              <span class="admin-nav-left">
+                <img src="/assets/icons/users.svg" alt="">
+                <span>Equipe</span>
+              </span>
+            </a>
+          }
+
+          <a routerLink="/admin/configuracoes" routerLinkActive="is-active" class="admin-nav-item">
+            <span class="admin-nav-left">
+              <img src="/assets/icons/settings.svg" alt="">
+              <span>Configurações</span>
+            </span>
+            <span class="nav-soon">Em breve</span>
+          </a>
+        </div>
+      </nav>
+    </div>
+
+    <div class="admin-sidebar-footer">
+      <div class="admin-role-pill">
+        {{ ehSuperAdmin ? 'SUPERADMINISTRADOR' : 'ADMINISTRADOR' }}
+      </div>
+
+      <p class="admin-role-note">Equipe autorizada pela ONG</p>
+
+      <a routerLink="/" class="admin-side-link">Ver site público ↗</a>
+
+      <button type="button" class="admin-side-link-muted link-sair" (click)="sair()">
+        Sair
+      </button>
+
+      <p class="admin-side-bottom">Feito para quem cuida.</p>
+    </div>
+
+  </aside>
+
+  <!-- ÁREA PRINCIPAL -->
+  <div class="admin-main-col">
+
+    <header class="admin-topbar">
+      <span class="admin-topbar-label">Área administrativa</span>
+
+      <div class="admin-topbar-right">
+
+        <form class="admin-search-box" role="search" (ngSubmit)="buscar()">
+          <img src="/assets/icons/search.svg" alt="">
+          <input
+            type="search"
+            name="busca"
+            [(ngModel)]="busca"
+            placeholder="Buscar animal pelo nome..."
+            aria-label="Buscar animal pelo nome"
+          >
+        </form>
+
+        <!-- NOTIFICAÇÕES -->
+        <div class="popover-anchor">
+          <button
+            type="button"
+            class="admin-bell-btn"
+            aria-label="Notificações"
+            (click)="alternarMenu('notificacoes')"
+          >
+            <img src="/assets/icons/bell.svg" alt="" width="20" height="20">
+
+            @if (pendentes() > 0) {
+              <span class="admin-bell-count">{{ pendentes() }}</span>
+            }
+          </button>
+
+          <div class="admin-popover notif-popover" [class.is-open]="menuAberto() === 'notificacoes'">
+            <div class="notif-header">
+              <h2 class="notif-title">Notificações</h2>
+
+              @if (pendentes() > 0) {
+                <span class="notif-count-badge">{{ pendentes() }}</span>
+              }
+            </div>
+
+            @if (pendentes() > 0) {
+              <a routerLink="/admin/adocoes" class="notif-item" (click)="menuAberto.set(null)">
+                <div>
+                  <p class="notif-item-title">
+                    {{ pendentes() === 1
+                      ? '1 solicitação aguardando análise'
+                      : pendentes() + ' solicitações aguardando análise' }}
+                  </p>
+                  <p class="notif-item-desc">Veja as candidaturas e decida.</p>
+                </div>
+              </a>
+            } @else {
+              <p class="notif-item-desc">Nenhuma notificação por enquanto.</p>
+            }
+          </div>
+        </div>
+
+        <span class="admin-topbar-sep"></span>
+
+        <!-- PERFIL -->
+        <div class="popover-anchor">
+          <button type="button" class="admin-user-btn" (click)="alternarMenu('perfil')">
+            <span class="admin-avatar-svg">{{ iniciais }}</span>
+
+            <span class="user-lines">
+              <span class="admin-user-name">{{ usuario?.fullName }}</span>
+              <span class="admin-role-chip">{{ papelRotulo }}</span>
+            </span>
+
+            <img src="/assets/icons/chevron.svg" alt="" width="16" height="16">
+          </button>
+
+          <div class="admin-popover profile-popover" [class.is-open]="menuAberto() === 'perfil'">
+            <p class="admin-user-name">{{ usuario?.fullName }}</p>
+            <p class="admin-role-note">{{ usuario?.email }}</p>
+
+            <div class="profile-popover-actions">
+              <a routerLink="/" class="profile-popover-btn">Ver site público</a>
+              <button type="button" class="profile-popover-btn" (click)="sair()">Sair</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </header>
+
+    <router-outlet />
+
+  </div>
+
+</div>

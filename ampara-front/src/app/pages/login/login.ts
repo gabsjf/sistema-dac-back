@@ -63,7 +63,7 @@ export class Login {
           resposta.user.role === 'Admin' ||
           resposta.user.role === 'SuperAdmin'
         ) {
-          this.router.navigateByUrl('/admin/adocoes');
+          this.router.navigateByUrl('/admin/visao-geral');
         } else {
           this.router.navigateByUrl('/');
         }
